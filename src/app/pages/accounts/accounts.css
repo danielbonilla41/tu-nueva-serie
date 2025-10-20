@@ -1,0 +1,90 @@
+/* Estilos para el contenedor principal de la página */
+.platform-list {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.platform-list h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    font-weight: 700;
+}
+
+/* ---------------------------------- */
+/* Contenedor de las Tarjetas (Grid)  */
+/* ---------------------------------- */
+.platform-list {
+    /* Usa CSS Grid para una disposición moderna y adaptable */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px; /* Espacio entre las tarjetas */
+}
+
+/* ---------------------------------- */
+/* Estilo de la Tarjeta Individual    */
+/* ---------------------------------- */
+.platform-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Efecto hover sutil */
+.platform-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo del título (nombre de la plataforma) */
+.platform-card h3 {
+    font-size: 1.5em;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Estilo del precio */
+.platform-card p {
+    font-size: 1.1em;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Resaltar el precio en negrita */
+.platform-card strong {
+    font-size: 1.4em;
+    color: #28a745; /* Un color verde que denota valor o 'good deal' */
+    font-weight: 800;
+}
+
+/* Estilo de la información adicional (perfiles) */
+.profiles-info {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 15px !important;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd;
+}
+
+/* ---------------------------------- */
+/* Iconos (Si incluyes el tag <img>)  */
+/* ---------------------------------- */
+.platform-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    border: 3px solid #f0f0f0;
+}

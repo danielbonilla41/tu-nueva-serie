@@ -1,0 +1,21 @@
+<div class="platform-list">
+    <h2>Plataformas de Streaming Disponibles 📺</h2>
+
+    @for (account of priceAccounts(); track account.name) {
+        <div class="platform-card">
+            <h3>{{ account.name }}</h3>
+            
+            <p>
+                Precio mensual: 
+                <strong>{{ account.price | currency:'USD':'symbol':'1.2-2' }}</strong>
+            </p>
+            
+            <p class="profiles-info">
+                Perfiles disponibles: {{ account.numberProfiles }}
+            </p>
+        </div>
+    } 
+    @empty {
+        <p>No se encontraron datos de precios.</p>
+    }
+</div>
