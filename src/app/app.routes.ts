@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { Accounts } from './pages/accounts/accounts';
+import { Cart } from './pages/cart/cart';
 
 export const routes: Routes = [
     // 1. RUTA PRINCIPAL (RAÍZ)
@@ -9,17 +10,16 @@ export const routes: Routes = [
         redirectTo: 'accounts',
         pathMatch: 'full' // Asegura que solo se redireccione cuando la URL coincide exactamente con ''
     },
-
-    // 2. RUTA DE CUENTAS
-    // Carga el componente Accounts cuando la URL es '/accounts'.
     {
         path: 'accounts',
         component: Accounts,
         title: 'Cuentas Streaming'
     },
-
-    // 3. RUTA COMODÍN (Manejo de 404)
-    // Redirige cualquier URL desconocida de vuelta a la raíz.
+    {
+        path: 'cart',
+        component: Cart,
+        title: 'Tu Carrito'
+    },
     {
         path: '**',
         redirectTo: '',

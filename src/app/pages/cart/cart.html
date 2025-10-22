@@ -1,0 +1,49 @@
+<div class="cart-container">
+    <h2>Carrito de Compras</h2>
+
+    @if (shoppingCart().length === 0) {
+        <div class="empty-cart-message">
+            <p>Tu carrito está vacío. ¡Agrega una plataforma para comenzar!</p>
+            <p>🛒</p>
+        </div>
+    } @else {
+        
+        @if (!hasDiscount()) {
+            <div class="discount-alert-message">
+                <p>Si agregas más de un producto, obtendrás un 5% de descuento en el total de tu compra.</p>
+            </div>
+        }
+
+        <div class="cart-list">
+            @for (item of shoppingCart(); track item.name) {
+                <div class="cart-item">
+                    <img [src]="item.iconUrl" [alt]="item.name + ' Logo'" class="item-icon">
+                    <div class="item-details">
+                        <h4>{{ item.name }}</h4>                        
+                    </div>
+                    <span class="item-price">
+                        {{ item.price | currency:'$':'symbol':'1.0-0' }}
+                    </span>
+                    </div>
+            }
+        </div>
+
+        <div class="cart-summary">
+            <p>Subtotal: <span>{{ subtotal() | currency:'$':'symbol':'1.0-0' }}</span></p>
+            
+            @if (hasDiscount()) {
+                <p class="discount-line">
+                    Descuento (5%): 
+                    <span class="discount-value">- {{ discountAmount() | currency:'$':'symbol':'1.0-0' }}</span>
+                </p>
+            }
+            
+            <p class="total-line">
+                Total a Pagar: 
+                <span>{{ total() | currency:'$':'symbol':'1.0-0' }}</span>
+            </p>
+
+            <button class="checkout-button">Finalizar Compra</button>
+        </div>
+    }
+</div>

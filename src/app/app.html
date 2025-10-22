@@ -5,14 +5,14 @@
         </a>
 
         <nav class="header-nav">
-            <a [routerLink]="['/']" routerLinkActive="active">Inicio</a>           
-            
-            <button class="cart-button">
+            <a [routerLink]="['/']" routerLinkActive="active">Inicio</a>
+
+            <a [routerLink]="['/cart']" class="cart-button">
                 🛒 Carrito
                 @if (cartItemsSignal() > 0) {
-                    <span class="cart-badge">{{ cartItemsSignal() }}</span>
+                <span class="cart-badge">{{ cartItemsSignal() }}</span>
                 }
-            </button>
+            </a>
         </nav>
     </div>
 </header>

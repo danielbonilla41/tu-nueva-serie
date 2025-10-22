@@ -20,6 +20,4 @@ export class App {
     this.dataService.shoppingCartSignal().length
   );
 
-  // Puedes usar esta propiedad en el header para mostrar el total:
-  // this.cartItemsSignal()
 }
