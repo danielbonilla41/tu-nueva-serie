@@ -10,6 +10,8 @@ export class DataService {
     { name: 'Disney+ Premium', price: 7900, numberProfiles: 5, iconUrl: 'icons/disney.png' },
     { name: 'PrimeVideo', price: 4900, numberProfiles: 4, iconUrl: 'icons/primevideo.png' },
     { name: 'Max', price: 6900, numberProfiles: 5, iconUrl: 'icons/max.png' },
+    { name: 'Crunchyroll', price: 4900, numberProfiles: 4, iconUrl: 'icons/crunchyroll.png' },
+    { name: 'Paramount+', price: 5500, numberProfiles: 5, iconUrl: 'icons/paramount.png' }
   ];
 
   // Signal para la lista de plataformas (las disponibles)

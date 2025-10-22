@@ -15,8 +15,10 @@ export class Cart {
   //Señal que contiene los productos en el carrito
   shoppingCart: Signal<PriceAccount[]> = this.dataService.shoppingCartSignal;
 
-  //Constante para el descuento (0.05 = 5%)
-  readonly DISCOUNT_RATE = 0.05;
+  discountPercentage = 10;
+
+  //Constante para el descuento
+  readonly DISCOUNT_RATE = this.discountPercentage / 100;
 
   // ----------------------------------------------------
   // Cálculos Reactivos (Computed Signals)
