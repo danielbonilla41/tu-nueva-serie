@@ -1,7 +1,7 @@
 import { Component, inject, Signal } from '@angular/core';
 import { PriceAccount } from '../../models/price-account.model';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { DataService } from '../../services/data.service';
+import { DataService } from '../../core/services/data.service';
 
 @Component({
   selector: 'app-accounts',
@@ -10,8 +10,14 @@ import { DataService } from '../../services/data.service';
   templateUrl: './accounts.html',
   styleUrl: './accounts.css'
 })
+
 export class Accounts {
   private dataService = inject(DataService);
 
   priceAccounts: Signal<PriceAccount[]> = this.dataService.priceAccountsSignal;
+
+  // Método para manejar el clic del botón
+  addToCart(account: PriceAccount): void {
+    this.dataService.addToCart(account);
+  }
 }

@@ -2,20 +2,19 @@
     <h2>Plataformas de Streaming Disponibles 📺</h2>
 
     @for (account of priceAccounts(); track account.name) {
-        <div class="platform-card">
-            <h3>{{ account.name }}</h3>
-            
-            <p>
-                Precio mensual: 
-                <strong>{{ account.price | currency:'USD':'symbol':'1.2-2' }}</strong>
-            </p>
-            
-            <p class="profiles-info">
-                Perfiles disponibles: {{ account.numberProfiles }}
-            </p>
-        </div>
-    } 
+    <div class="platform-card">
+        <img [src]="account.iconUrl" [alt]="account.name + ' Logo'" class="platform-icon">
+
+        <h3>{{ account.name }}</h3>
+        <p>Precio mensual:
+            {{ account.price | currency:'$':'symbol':'1.0-0' }}
+        </p>
+        <button class="add-to-cart-btn" (click)="addToCart(account)">
+            🛒 Añadir al Carrito
+        </button>
+    </div>
+    }
     @empty {
-        <p>No se encontraron datos de precios.</p>
+    <p>No se encontraron datos de precios.</p>
     }
 </div>

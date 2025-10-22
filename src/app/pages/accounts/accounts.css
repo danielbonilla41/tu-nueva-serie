@@ -88,3 +88,28 @@
     border-radius: 50%;
     border: 3px solid #f0f0f0;
 }
+
+/* ---------------------------------- */
+/* Estilo del Botón "Agregar al Carrito" */
+
+.add-to-cart-btn {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007bff; /* Azul primario */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.add-to-cart-btn:active {
+    background-color: #004085;
+}
