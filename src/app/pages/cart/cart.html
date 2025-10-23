@@ -58,7 +58,30 @@
             <span>{{ total() | currency:'$':'symbol':'1.0-0' }}</span>
         </p>
 
-        <button class="checkout-button">Finalizar Compra</button>
+        <button class="checkout-button" (click)="openPaymentModal()">Finalizar Compra</button>
     </div>
     }
 </div>
+
+<!-- Modal de pago -->
+@if (showModal) {
+<div class="modal-overlay" (click)="closePaymentModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+        <button class="cerrar" (click)="closePaymentModal()">✕</button>
+
+        <div class="qr-section">
+            <h4>Nequi o Bre-B</h4>
+            <img src="qr/nequi.png" alt="QR Nequi" class="qr">
+
+            <div class="info">
+                <span>Número: 312 583 3369</span>
+                <button class="btn-copy" (click)="copyNequiNumber()" title="Copiar número">📋</button>
+            </div>
+
+            @if (copied) {
+            <p class="copiado">Número copiado ✅</p>
+            }
+        </div>
+    </div>
+</div>
+}

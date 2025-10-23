@@ -12,6 +12,9 @@ import { PriceAccount } from '../../models/price-account.model';
 })
 export class Cart {
   private dataService = inject(DataService);
+  copied = false;
+  showModal = false;
+
   //Señal que contiene los productos en el carrito
   shoppingCart: Signal<PriceAccount[]> = this.dataService.shoppingCartSignal;
 
@@ -66,10 +69,30 @@ export class Cart {
     return this.subtotal() - this.discountAmount();
   });
 
-  // ----------------------------------------------------
   // Eliminar producto del carrito
-  // ----------------------------------------------------
   removeFromCart(platform: PriceAccount): void {
     this.dataService.removeFromCart(platform);
+  }
+
+  // Mostrar ventana emergente
+  openPaymentModal(): void {
+    this.showModal = true;
+  }
+
+  // Cerrar ventana emergente
+  closePaymentModal(): void {
+    this.showModal = false;
+    this.copied = false;
+  }
+
+  /**Copiar número de Nequi al portapapeles */
+  copyNequiNumber(): void {
+    const nequiNumber = '3125833369';
+    navigator.clipboard.writeText(nequiNumber)
+      .then(() => {
+        this.copied = true;
+        setTimeout(() => this.copied = false, 2000); // mensaje por 2 segundos
+      })
+      .catch(err => console.error('No se pudo copiar', err));
   }
 }
