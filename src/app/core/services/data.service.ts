@@ -6,12 +6,12 @@ export class DataService {
 
   // Datos estáticos
   private staticData: PriceAccount[] = [
-    { name: 'Netflix', price: 12900, numberProfiles: 4, iconUrl: 'icons/netflix.png' },
-    { name: 'Disney+ Premium', price: 7900, numberProfiles: 5, iconUrl: 'icons/disney.png' },
-    { name: 'PrimeVideo', price: 4900, numberProfiles: 4, iconUrl: 'icons/primevideo.png' },
-    { name: 'Max', price: 6900, numberProfiles: 5, iconUrl: 'icons/max.png' },
-    { name: 'Crunchyroll', price: 4900, numberProfiles: 4, iconUrl: 'icons/crunchyroll.png' },
-    { name: 'Paramount+', price: 5500, numberProfiles: 5, iconUrl: 'icons/paramount.png' }
+    { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png' },
+    { name: 'Disney+ Premium', price: 7900, iconUrl: 'icons/disney.png' },
+    { name: 'PrimeVideo', price: 4900, iconUrl: 'icons/primevideo.png' },
+    { name: 'Max', price: 6900, iconUrl: 'icons/max.png' },
+    { name: 'Crunchyroll', price: 4900, iconUrl: 'icons/crunchyroll.png' },
+    { name: 'Paramount+', price: 5500, iconUrl: 'icons/paramount.png' }
   ];
 
   // Signal para la lista de plataformas (las disponibles)
@@ -52,4 +52,19 @@ export class DataService {
     console.log(`${platform.name} añadido al carrito.`);
   }
 
+  // El método de eliminación es correcto si solo hay una instancia de cada plataforma.
+  removeFromCart(platformToRemove: PriceAccount): void {
+    this._shoppingCart.update(currentCart => {
+        const index = currentCart.findIndex(
+            item => item.name === platformToRemove.name
+        );
+
+        if (index > -1) {
+            const newCart = [...currentCart];
+            newCart.splice(index, 1); 
+            return newCart;
+        }
+        return currentCart;
+    });
+  }
 }

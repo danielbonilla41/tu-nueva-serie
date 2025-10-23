@@ -8,12 +8,25 @@
     </div>
     } @else {
 
-    @if (!hasDiscount()) {
+    @if (shoppingCart().length === 1) {
+    <div class="discount-alert-message discount-hierarchy">
+        <p>¡Solo tienes una cuenta! Agrega más para obtener un descuento:</p>
+        <ul>
+            <li>2 cuentas: 5% de descuento</li>
+            <li>3 cuentas: 7% de descuento</li>
+            <li>4 o más cuentas: 10% de descuento máximo</li>
+        </ul>
+    </div>
+    } @else if (shoppingCart().length === 2) {
     <div class="discount-alert-message">
-        <p>Si agregas más de un producto, obtendrás un 5% de descuento en el total de tu compra.</p>
+        <p>¡Ya tienes un {{ displayDiscountPercentage() }}% de descuento! Agrega una cuenta más y sube al 7%.</p>
+        <p>Ó agrega 2 cuentas más y sube al 10%.</p>
+    </div>
+    } @else if (shoppingCart().length === 3) {
+    <div class="discount-alert-message">
+        <p>¡Tienes un {{ displayDiscountPercentage() }}% de descuento! Agrega una cuenta más para el 10% máximo.</p>
     </div>
     }
-
     <div class="cart-list">
         @for (item of shoppingCart(); track item.name) {
         <div class="cart-item">
@@ -24,6 +37,8 @@
             <span class="item-price">
                 {{ item.price | currency:'$':'symbol':'1.0-0' }}
             </span>
+            <button class="remove-button" (click)="removeFromCart(item)" title="Eliminar {{ item.name }}">
+                &times; </button>
         </div>
         }
     </div>
@@ -33,7 +48,7 @@
 
         @if (hasDiscount()) {
         <p class="discount-line">
-            Descuento ({{ discountPercentage }}% ):
+            Descuento ({{ displayDiscountPercentage() }}%):
             <span class="discount-value">- {{ discountAmount() | currency:'$':'symbol':'1.0-0' }}</span>
         </p>
         }

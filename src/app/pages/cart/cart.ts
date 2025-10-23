@@ -15,10 +15,12 @@ export class Cart {
   //Señal que contiene los productos en el carrito
   shoppingCart: Signal<PriceAccount[]> = this.dataService.shoppingCartSignal;
 
-  discountPercentage = 10;
-
-  //Constante para el descuento
-  readonly DISCOUNT_RATE = this.discountPercentage / 100;
+  //Objeto que define las tasas de descuento
+  readonly DISCOUNTS = {
+    TWO_ITEMS: 0.05, // 5%
+    THREE_ITEMS: 0.07, // 7%
+    FOUR_OR_MORE_ITEMS: 0.10 // 10%
+  };
 
   // ----------------------------------------------------
   // Cálculos Reactivos (Computed Signals)
@@ -29,22 +31,45 @@ export class Cart {
     return this.shoppingCart().reduce((sum, item) => sum + item.price, 0);
   });
 
-  // 2. Determina si se aplica el descuento
-  hasDiscount = computed(() => {
-    // El descuento se aplica solo si hay más de un producto
-    return this.shoppingCart().length > 1;
-  });
+  // 2. Determina la tasa de descuento actual
+  currentDiscountRate = computed(() => {
+    const count = this.shoppingCart().length;
 
-  // 3. Calcula el valor del descuento
-  discountAmount = computed(() => {
-    if (this.hasDiscount()) {
-      return this.subtotal() * this.DISCOUNT_RATE;
+    if (count >= 4) {
+      return this.DISCOUNTS.FOUR_OR_MORE_ITEMS; // 10%
+    } else if (count === 3) {
+      return this.DISCOUNTS.THREE_ITEMS; // 7%
+    } else if (count === 2) {
+      return this.DISCOUNTS.TWO_ITEMS; // 5%
     }
-    return 0;
+    return 0; // 0% para 0 o 1 cuenta
   });
 
-  // 4. Calcula el total final a pagar
+  // 3. Determina el porcentaje de descuento a mostrar
+  displayDiscountPercentage = computed(() => {
+    return Math.round(this.currentDiscountRate() * 100);
+  });
+
+  // 4. Determina si se aplica cualquier descuento
+  hasDiscount = computed(() => {
+    return this.shoppingCart().length >= 2;
+  });
+
+  // 5. Calcula el valor del descuento
+  discountAmount = computed(() => {
+    // Usa la tasa de descuento dinámica
+    return this.subtotal() * this.currentDiscountRate();
+  });
+
+  // 6. Calcula el total final a pagar
   total = computed(() => {
     return this.subtotal() - this.discountAmount();
   });
+
+  // ----------------------------------------------------
+  // Eliminar producto del carrito
+  // ----------------------------------------------------
+  removeFromCart(platform: PriceAccount): void {
+    this.dataService.removeFromCart(platform);
+  }
 }

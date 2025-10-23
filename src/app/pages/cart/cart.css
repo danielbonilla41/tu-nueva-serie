@@ -17,9 +17,7 @@
     padding-bottom: 15px;
 }
 
-/* ---------------------------------- */
-/* Lista de Items */
-/* ---------------------------------- */
+/* --- Lista de Items --- */
 .cart-list {
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -33,16 +31,11 @@
     border-bottom: 1px solid #eee;
 }
 
-.cart-item:last-child {
-    border-bottom: none;
-}
-
 .item-icon {
     width: 50px;
     height: 50px;
     object-fit: contain;
     margin-right: 20px;
-    border-radius: 4px;
 }
 
 .item-details {
@@ -52,24 +45,14 @@
 .item-details h4 {
     margin: 0 0 5px 0;
     font-size: 1.1em;
-    color: #1a1a1a;
-}
-
-.item-details p {
-    margin: 0;
-    font-size: 0.9em;
-    color: #777;
 }
 
 .item-price {
     font-size: 1.1em;
     font-weight: 600;
-    color: #333;
 }
 
-/* ---------------------------------- */
-/* Mensajes y Alertas */
-/* ---------------------------------- */
+/* --- Mensajes y Alertas --- */
 .empty-cart-message {
     text-align: center;
     padding: 40px;
@@ -90,13 +73,20 @@
     font-weight: 500;
 }
 
-.discount-alert-message strong {
-    color: #007bff;
+/* Estilo específico para la jerarquía (cuando hay 1 producto) */
+.discount-hierarchy {
+    background-color: #e6f7ff; 
+    border-left: 5px solid #007bff;
+    color: #333;
 }
 
-/* ---------------------------------- */
-/* Resumen */
-/* ---------------------------------- */
+.discount-hierarchy ul {
+    list-style-type: disc;
+    padding-left: 25px;
+    margin-top: 10px;
+}
+
+/* --- Resumen de Totales --- */
 .cart-summary {
     background: #fff;
     padding: 20px;
@@ -113,14 +103,14 @@
 }
 
 .discount-line {
-    color: #28a745; /* Verde para el descuento */
+    color: #28a745;
     font-weight: 600;
     border-top: 1px dashed #e9ecef;
     padding-top: 10px !important;
 }
 
 .discount-value {
-    color: #dc3545; /* Rojo para el valor negativo */
+    color: #dc3545;
 }
 
 .total-line {
@@ -129,10 +119,6 @@
     border-top: 2px solid #333;
     padding-top: 10px !important;
     margin-top: 10px !important;
-}
-
-.total-line span {
-    color: #007bff;
 }
 
 .checkout-button {
@@ -145,9 +131,36 @@
     border-radius: 6px;
     font-size: 1.2em;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.checkout-button:hover {
-    background-color: #0056b3;
+.remove-button {
+    /* Configuración para que el botón se vea como una 'X' de cerrar */
+    background: none;
+    border: none;
+    color: #dc3545; /* Rojo */
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-left: 25px; /* Separación del precio */
+    padding: 0 5px;
+    line-height: 1; /* Para alinear bien el símbolo X */
+    transition: color 0.2s;
+}
+
+.remove-button:hover {
+    color: #a91224;
+    transform: scale(1.1);
+}
+
+/* Asegurar que los items estén distribuidos con espacio */
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    justify-content: space-between; /* Distribuye espacio entre elementos */
+}
+
+/* Permitir que los detalles tomen la mayor parte del espacio */
+.item-details {
+    flex-grow: 1;
+    text-align: left;
 }
