@@ -6,12 +6,12 @@ export class DataService {
 
   // Datos estáticos
   private staticData: PriceAccount[] = [
-    { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png' },
-    { name: 'Disney+ Premium', price: 7900, iconUrl: 'icons/disney.png' },
-    { name: 'PrimeVideo', price: 4900, iconUrl: 'icons/primevideo.png' },
-    { name: 'Max', price: 6900, iconUrl: 'icons/max.png' },
-    { name: 'Crunchyroll', price: 4900, iconUrl: 'icons/crunchyroll.png' },
-    { name: 'Paramount+', price: 5500, iconUrl: 'icons/paramount.png' }
+    { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png', features: this.featuresNetflix() },
+    { name: 'Disney+ Premium', price: 7900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
+    { name: 'PrimeVideo', price: 4900, iconUrl: 'icons/primevideo.png', features: this.featuresPrime() },
+    { name: 'Max', price: 6900, iconUrl: 'icons/max.png', features: this.featuresMax() },
+    { name: 'Crunchyroll', price: 4900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() },
+    { name: 'Paramount+', price: 5500, iconUrl: 'icons/paramount.png', features: this.featuresParamount() }
   ];
 
   // Signal para la lista de plataformas (las disponibles)
@@ -19,10 +19,6 @@ export class DataService {
 
   // Signal para el Carrito de Compras
   private _shoppingCart = signal<PriceAccount[]>([]);
-
-  // ----------------------------------------------------
-  // Métodos Públicos
-  // ----------------------------------------------------
 
   // Getter para las plataformas disponibles
   get priceAccountsSignal(): Signal<PriceAccount[]> {
@@ -55,16 +51,76 @@ export class DataService {
   // El método de eliminación es correcto si solo hay una instancia de cada plataforma.
   removeFromCart(platformToRemove: PriceAccount): void {
     this._shoppingCart.update(currentCart => {
-        const index = currentCart.findIndex(
-            item => item.name === platformToRemove.name
-        );
+      const index = currentCart.findIndex(
+        item => item.name === platformToRemove.name
+      );
 
-        if (index > -1) {
-            const newCart = [...currentCart];
-            newCart.splice(index, 1); 
-            return newCart;
-        }
-        return currentCart;
+      if (index > -1) {
+        const newCart = [...currentCart];
+        newCart.splice(index, 1);
+        return newCart;
+      }
+      return currentCart;
     });
+  }
+
+  private featuresNetflix(): string[] {
+    return [
+      'Acceso ilimitado a películas y series',
+      'Descargas para ver sin conexión',
+      'Calidad HD y Ultra HD',
+      'Perfiles personalizados',
+      'Recomendaciones basadas en tu historial de visualización'
+    ];
+  }
+
+  private featuresDisney(): string[] {
+    return [
+      'Contenido de Disney, Pixar, Marvel, Star Wars',
+      'Descargas ilimitadas en 10 dispositivos',
+      'Calidad 4K UHD y HDR',
+      'Hasta 4 streams simultáneos',
+      'Sin costo adicional por 4K/UHD'
+    ];
+  }
+
+  private featuresPrime(): string[] {
+    return [
+      'Envíos gratis de Amazon Prime',
+      'Prime Gaming incluido',
+      'Calidad 4K Ultra HD',
+      'Hasta 3 streams simultáneos',
+      'Descargas disponibles'
+    ];
+  }
+
+  private featuresMax(): string[] {
+    return [
+      'Contenido de HBO, DC, Warner',
+      'Calidad 4K Ultra HD',
+      'Descargas offline',
+      'Perfiles personalizados',
+      'Contenido sin anuncios'
+    ];
+  }
+
+  private featuresCrunchyroll(): string[] {
+    return [
+      'Acceso a miles de episodios de anime',
+      'Simulcasts al mismo tiempo que Japón',
+      'Calidad HD y 4K',
+      'Descargas para ver sin conexión',
+      'Sin anuncios en la versión premium'
+    ];
+  }
+
+  private featuresParamount(): string[] {
+    return [
+      'Acceso a películas y series de Paramount',
+      'Contenido exclusivo de CBS, MTV, Nickelodeon',
+      'Calidad HD y 4K',
+      'Descargas para ver sin conexión',
+      'Perfiles personalizados'
+    ];
   }
 }

@@ -3,8 +3,19 @@
 .app-header {
     background-color: #1a1a1a;
     color: white;
-    padding: 15px 0;
+    padding: 1px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* ⭐️ PROPIEDADES PARA FIJAR EL HEADER ⭐️ */
+    position: fixed; /* Lo saca del flujo normal del documento */
+    top: 0;          /* Lo pega al borde superior de la ventana */
+    left: 0;         /* Lo pega al borde izquierdo */
+    width: 100%;     /* Asegura que ocupe todo el ancho */
+    z-index: 1000;   /* Asegura que quede por encima de todo el contenido */
+}
+
+.app-main {
+    /* AJUSTE NECESARIO para que el contenido no quede debajo del header */
+    padding-top: 70px; /* Ajusta este valor al alto real de tu header */
 }
 
 .header-container {
@@ -16,11 +27,10 @@
     align-items: center;
 }
 
-.app-logo h1 {
-    font-size: 1.8em;
-    margin: 0;
-    font-weight: 700;
-    color: #007bff; /* Color de acento */
+.header-logo-img {
+    height: 70px; /* Define una altura fija, ajusta según el diseño de tu header */
+    width: auto;
+    display: block; /* Asegura que la imagen se comporte correctamente */
 }
 
 .app-logo {

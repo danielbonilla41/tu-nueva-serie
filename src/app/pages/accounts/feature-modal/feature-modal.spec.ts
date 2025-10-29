@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccounDetails } from './accoun-details';
+import { FeatureModal } from './feature-modal';
 
-describe('AccounDetails', () => {
-  let component: AccounDetails;
-  let fixture: ComponentFixture<AccounDetails>;
+describe('FeatureModal', () => {
+  let component: FeatureModal;
+  let fixture: ComponentFixture<FeatureModal>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AccounDetails]
+      imports: [FeatureModal]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AccounDetails);
+    fixture = TestBed.createComponent(FeatureModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

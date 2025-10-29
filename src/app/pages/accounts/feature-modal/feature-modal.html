@@ -1,0 +1,23 @@
+<dialog #modalDialog (close)="onClose()">
+    @if (platform) {
+    <div class="modal-header">
+        <h3>Características de {{ platform.name }}</h3>
+        <button class="close-btn" (click)="onClose()">&times;</button>
+    </div>
+
+    <div class="modal-content">
+        <img [src]="platform.iconUrl" [alt]="platform.name + ' Logo'" class="platform-modal-icon">
+
+        <h4>Beneficios de la suscripción:</h4>
+        <ul class="features-list-modal">
+            @for (feature of platform.features; track feature) {
+            <li>✅ {{ feature }}</li>
+            }
+        </ul>
+    </div>
+
+    <div class="modal-footer">
+        <button (click)="onClose()">Entendido</button>
+    </div>
+    }
+</dialog>
