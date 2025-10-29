@@ -1,71 +1,98 @@
 /* src/app/pages/accounts/feature-modal/feature-modal.component.css */
 
-/* Estilo para el elemento nativo <dialog> */
+/* ================================================= */
+/* 1. ELEMENTO NATIVO <dialog> */
+/* ================================================= */
+
+/* src/app/pages/accounts/feature-modal/feature-modal.component.css (Extracto de la regla dialog) */
+
 dialog {
     border: none;
     padding: 0;
-    border-radius: 12px;
+    border-radius: 15px; 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     max-width: 450px;
     width: 90%;
-    /* Asegura que el fondo semi-transparente se muestre */
-    backdrop-filter: blur(2px);
-    background-color: #fff;
+    background-color: #ffffff;
     
-    /* Configuración para que el backdrop sea oscuro */
-    &::backdrop {
-        background-color: rgba(0, 0, 0, 0.6);
-    }
+    /* ⭐️ AJUSTE CLAVE PARA CENTRADO ABSOLUTO ⭐️ */
+    margin: auto; 
+    /* Aunque showModal() maneja esto, es buena práctica forzarlo */
+    
+    /* Forzar re-centrado vertical en caso de que showModal falle o el contenido cambie */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Asegúrate de que el modal tiene un ancho definido para que funcione el centrado */
+    max-width: 450px; 
+    
+    /* ... el resto de tus estilos ... */
 }
+
+/* ================================================= */
+/* 2. HEADER Y BOTÓN CERRAR */
+/* ================================================= */
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #eee;
+    background-color: #f8f9ff; /* Fondo muy claro para el header */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .modal-header h3 {
     margin: 0;
     font-size: 1.4em;
-    color: #1a1a1a;
+    color: #4125d9; /* Título principal con Color Principal */
+    font-weight: 700;
 }
 
 .close-btn {
     background: none;
     border: none;
     font-size: 2em;
-    color: #aaa;
+    color: #7c25d9; /* Acento 2 en el botón de cerrar */
     cursor: pointer;
     line-height: 1;
     transition: color 0.2s;
+    padding: 5px; /* Aumenta el área de clic */
 }
 
 .close-btn:hover {
-    color: #dc3545;
+    color: #dc3545; /* Rojo para una acción de salida clara */
 }
 
+/* ================================================= */
+/* 3. CONTENIDO Y CARACTERÍSTICAS */
+/* ================================================= */
+
 .modal-content {
-    padding: 20px;
+    padding: 30px 25px;
     text-align: center;
 }
 
 .platform-modal-icon {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     object-fit: contain;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     border-radius: 50%;
-    border: 3px solid #007bff;
+    /* Borde destacado con Acento 2 */
+    border: 3px solid #7c25d9; 
 }
 
 .modal-content h4 {
-    color: #007bff;
-    border-bottom: 1px solid #eee;
+    /* Color Principal para el subtítulo */
+    color: #4125d9; 
+    border-bottom: 2px dashed #f0f0ff;
     padding-bottom: 10px;
     margin-top: 0;
+    font-weight: 600;
 }
 
 .features-list-modal {
@@ -77,28 +104,43 @@ dialog {
 
 .features-list-modal li {
     font-size: 1em;
-    padding: 8px 0;
-    border-bottom: 1px dashed #f0f0f0;
+    padding: 10px 0;
+    border-bottom: 1px solid #f9f9f9;
     color: #333;
+    display: flex;
+    align-items: center;
 }
 
+.features-list-modal li:last-child {
+    border-bottom: none;
+}
+
+.features-list-modal li .material-icons {
+    margin-right: 10px;
+    color: #4125d9; /* Icono verde (✅) con color Principal */
+}
+
+/* ================================================= */
+/* 4. FOOTER Y BOTÓN DE ACCIÓN */
+/* ================================================= */
+
 .modal-footer {
-    padding: 15px 20px;
-    border-top: 1px solid #eee;
+    padding: 15px 25px 20px 25px;
+    border-top: 1px solid #f0f0f0;
     text-align: right;
 }
 
 .modal-footer button {
-    background-color: #007bff;
+    /* Color Principal para el botón de cierre */
+    background-color: #4125d9; 
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1em;
+    padding: 10px 25px;
+    font-weight: 600;
+    border-radius: 8px;
     transition: background-color 0.2s;
 }
 
 .modal-footer button:hover {
-    background-color: #0056b3;
+    /* Acento Brillante para hover */
+    background-color: #b625d9;
 }

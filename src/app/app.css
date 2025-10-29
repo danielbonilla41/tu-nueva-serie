@@ -1,21 +1,21 @@
 /* src/app/app.component.css */
 
-.app-header {
-    background-color: #1a1a1a;
-    color: white;
-    padding: 1px 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    /* ⭐️ PROPIEDADES PARA FIJAR EL HEADER ⭐️ */
-    position: fixed; /* Lo saca del flujo normal del documento */
-    top: 0;          /* Lo pega al borde superior de la ventana */
-    left: 0;         /* Lo pega al borde izquierdo */
-    width: 100%;     /* Asegura que ocupe todo el ancho */
-    z-index: 1000;   /* Asegura que quede por encima de todo el contenido */
-}
+/* ================================================= */
+/* 1. HEADER FIJO Y LAYOUT BASE */
+/* ================================================= */
 
-.app-main {
-    /* AJUSTE NECESARIO para que el contenido no quede debajo del header */
-    padding-top: 70px; /* Ajusta este valor al alto real de tu header */
+.app-header {
+    background-color: #000000; /* Fondo blanco para el header */
+    padding: 15px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra sutil para destacar el elemento fijo */
+    border-bottom: 2px solid #f0f0f0; /* Línea suave para separar del contenido */
+    
+    /* ⭐️ PROPIEDADES PARA FIJAR EL HEADER ⭐️ */
+    position: fixed; 
+    top: 0;          
+    left: 0;         
+    width: 100%;     
+    z-index: 1000;   
 }
 
 .header-container {
@@ -27,45 +27,76 @@
     align-items: center;
 }
 
-.header-logo-img {
-    height: 70px; /* Define una altura fija, ajusta según el diseño de tu header */
-    width: auto;
-    display: block; /* Asegura que la imagen se comporte correctamente */
+/* Ajuste del contenido principal para que no quede oculto bajo el header */
+.app-main {
+    padding-top: 70px; /* Asegura espacio igual a la altura del header fijo */
+    min-height: calc(100vh - 70px);
 }
 
+/* ================================================= */
+/* 2. LOGO Y NAVEGACIÓN */
+/* ================================================= */
+
+/* Estilo del Logo (Contenedor <a>) */
 .app-logo {
-    text-decoration: none; /* Quitar subrayado del logo */
+    display: flex;
+    align-items: center;
 }
 
-/* Navegación */
+/* Estilo de la Imagen del Logo */
+.header-logo-img {
+    height: 35px; /* Altura ajustada para el diseño */
+    width: auto;
+    display: block; 
+}
+
+/* Contenedor de la Navegación */
+.header-nav {
+    display: flex;
+    align-items: center;
+}
+
+/* Enlaces de Navegación */
 .header-nav a {
-    color: white;
+    color: #555; /* Color de texto suave para la navegación normal */
     text-decoration: none;
-    margin-right: 25px;
+    margin-left: 30px; /* Espacio entre enlaces */
     font-weight: 500;
-    transition: color 0.2s;
+    font-size: 1.05em;
+    transition: color 0.2s, font-weight 0.2s;
 }
 
-.header-nav a:hover, .header-nav a.active {
-    color: #007bff;
-}
-
-/* Estilo del Botón de Carrito */
-.cart-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1em;
+/* Enlace Activo o Hover */
+.header-nav a:hover, 
+.header-nav a.active {
+    color: #4125d9; /* Color Principal: Azul/Púrpura Profundo para destacar */
     font-weight: 600;
-    position: relative; /* Para posicionar el badge */
-    transition: background-color 0.2s;
+}
+
+/* ================================================= */
+/* 3. BOTÓN DE CARRITO (CTA) */
+/* ================================================= */
+
+.cart-button {
+    /* Color Principal: Azul/Púrpura Profundo */
+    background: #4125d9; 
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    position: relative; 
+    transition: background-color 0.2s, transform 0.1s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
 }
 
 .cart-button:hover {
-    background-color: #0056b3;
+    /* Color Acento 1: Magenta/Púrpura Brillante para hover */
+    background-color: #b625d9; 
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(65, 37, 217, 0.4);
 }
 
 /* Estilo de la Insignia (Badge) */
@@ -73,17 +104,14 @@
     position: absolute;
     top: -8px;
     right: -8px;
-    background-color: #dc3545; /* Rojo de notificación */
+    background-color: #dc3545; /* Rojo para alerta/cantidad */
     color: white;
+    border: 2px solid white; /* Borde blanco para mayor visibilidad */
     border-radius: 50%;
-    padding: 3px 7px;
+    padding: 3px 6px;
     font-size: 0.75em;
     line-height: 1;
     min-width: 18px;
     text-align: center;
-}
-
-/* Estilo para el contenido principal */
-.app-main {
-    padding-top: 20px;
+    font-weight: 700;
 }

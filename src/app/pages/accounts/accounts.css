@@ -1,37 +1,41 @@
-/* Estilos para el contenedor principal de la página */
-.platform-list {
-    max-width: 1800px;
-    margin: 40px auto;
+/* src/app/pages/accounts/accounts.component.css */
+
+/* ================================================= */
+/* 1. CONTENEDOR Y GRID */
+/* ================================================= */
+
+.platform-list-container {
+    max-width: 1200px;
+    margin: 70px auto;
     padding: 0 20px;
-    font-family: 'Arial', sans-serif;
 }
 
-.platform-list h2 {
+/* Título (asumiendo que está fuera del fragmento dado, pero es buena práctica) */
+.platform-list-container h2 {
     text-align: center;
-    color: #333;
+    color: #1a1a1a;
     margin-bottom: 30px;
     font-size: 2.2em;
     font-weight: 700;
 }
 
-/* ---------------------------------- */
-/* Contenedor de las Tarjetas (Grid)  */
-/* ---------------------------------- */
+/* Contenedor Grid */
 .platform-list {
-    /* Usa CSS Grid para una disposición moderna y adaptable */
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px; /* Espacio entre las tarjetas */
+    /* Configuración para un layout responsive de 280px de ancho mínimo */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
 }
 
-/* ---------------------------------- */
-/* Estilo de la Tarjeta Individual    */
-/* ---------------------------------- */
+/* ================================================= */
+/* 2. TARJETA INDIVIDUAL (PLATFORM CARD) */
+/* ================================================= */
+
 .platform-card {
     background-color: #ffffff;
     border-radius: 12px;
     padding: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Sombra suave */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
     display: flex;
@@ -39,77 +43,89 @@
     justify-content: space-between;
 }
 
-/* Efecto hover sutil */
 .platform-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Estilo del título (nombre de la plataforma) */
-.platform-card h3 {
-    font-size: 1.5em;
-    color: #1a1a1a;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-}
-
-/* Estilo del precio */
-.platform-card p {
-    font-size: 1.1em;
-    color: #555;
-    margin: 5px 0;
-}
-
-/* Resaltar el precio en negrita */
-.platform-card strong {
-    font-size: 1.4em;
-    color: #28a745; /* Un color verde que denota valor o 'good deal' */
-    font-weight: 800;
-}
-
-/* Estilo de la información adicional (perfiles) */
-.profiles-info {
-    font-size: 0.9em;
-    color: #888;
-    margin-top: 15px !important;
-    padding-top: 10px;
-    border-top: 1px dashed #ddd;
-}
-
-/* ---------------------------------- */
-/* Iconos (Si incluyes el tag <img>)  */
-/* ---------------------------------- */
 .platform-icon {
     width: 80px;
     height: 80px;
     object-fit: contain;
-    margin: 0 auto 20px;
+    margin: 0 auto 15px;
     border-radius: 50%;
-    border: 3px solid #f0f0f0;
+    /* Borde sutil con Color Principal */
+    border: 3px solid #4125d9; 
 }
 
-/* ---------------------------------- */
-/* Estilo del Botón "Agregar al Carrito" */
+.platform-card h3 {
+    font-size: 1.6em;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-weight: 700;
+}
 
-.add-to-cart-btn {
-    margin-top: 20px;
-    padding: 10px 15px;
-    background-color: #007bff; /* Azul primario */
-    color: white;
-    border: none;
+/* Estilo para la línea de Precio */
+.platform-card p {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.platform-card p strong {
+    /* Color para destacar el precio (Verde estándar para valores monetarios) */
+    color: #28a745; 
+    font-weight: 800;
+    font-size: 1.2em;
+}
+
+/* ================================================= */
+/* 3. BOTONES DE ACCIÓN */
+/* ================================================= */
+
+/* Botón Secundario (Ver Características) */
+.features-btn {
+    background-color: #f0f0ff; /* Fondo muy claro basado en el púrpura */
+    /* Color Acento 2 */
+    color: #7c25d9; 
+    border: 1px solid #7c25d9;
+    padding: 8px 15px;
     border-radius: 6px;
-    font-size: 1em;
+    font-size: 0.95em;
     font-weight: 600;
-    cursor: pointer;
+    margin-bottom: 10px; /* Separación del botón principal */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.features-btn:hover {
+    background-color: #7c25d9; /* Invertir colores en hover */
+    color: white;
+}
+
+/* Botón Principal (Añadir al Carrito) */
+.add-to-cart-btn {
+    /* Color Principal: Azul/Púrpura Profundo */
+    background-color: #4125d9; 
+    color: white;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
     transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 100%;
 }
 
 .add-to-cart-btn:hover {
-    background-color: #0056b3;
-    transform: translateY(-1px);
+    /* Color Acento 1: Magenta/Púrpura Brillante para hover */
+    background-color: #b625d9; 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.add-to-cart-btn:active {
-    background-color: #004085;
+/* Mensaje de Empty */
+@empty {
+    text-align: center;
+    color: #888;
+    padding: 30px;
 }
