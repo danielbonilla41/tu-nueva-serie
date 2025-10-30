@@ -1,18 +1,21 @@
-<div class="payment-container">
-    <div class="payment-card">
+<div class="modal-overlay">
+    <div class="modal">
+
+        <button class="cerrar" (click)="onClose()">✕</button>
+
         <h1>Finalizar Pago</h1>
 
-        <p class="instruction-info">
+        <p class="info">
             Escanea el código QR o realiza la transferencia al número de teléfono asociado.
         </p>
 
-        <div class="qr-methods-grid">
+        <div class="qr-container">
             @for (method of paymentMethods; track method.name) {
-            <div class="method-item">
+            <div class="qr-item">
 
-                <img [src]="method.qrUrl" [alt]="method.name + ' QR'" class="qr-image">
+                <img [src]="method.qrUrl" [alt]="method.name + ' QR'" class="qr">
 
-                <div class="method-details-box">
+                <div class="method-details-container">
 
                     <h1 class="method-name">{{ method.name }}</h1>
 
@@ -27,11 +30,11 @@
                                     d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 4 6 4.9 6 6v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V6c0-1.1-.9-1.9-2-2zm0 16H8V6h11v14z" />
                             </svg>
                         </button>
-                    </div>
 
+                    </div>
                     @if (copyStatus()) {
                     <div class="copy-alert">
-                        {{ copyStatus()}}
+                        {{ copyStatus() }}
                     </div>
                     }
                 </div>
@@ -39,13 +42,9 @@
             }
         </div>
 
-        <div class="instructions-footer">
-            <h4>Instrucciones Importantes</h4>
-            <ul>
-                <li>1. Transfiere el valor exacto de tu pedido.</li>
-                <li>2. Envía la captura de pantalla del pago al WhatsApp de soporte.</li>
-                <li>3. Recibirás tus credenciales en menos de 10 minutos.</li>
-            </ul>
-        </div>
+        <p class="precio-modal">
+            Total a Pagar:
+            <strong>{{ totalToPay | currency:'$':'symbol':'1.0-0' }}</strong>
+        </p>
     </div>
 </div>

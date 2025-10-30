@@ -58,30 +58,23 @@
             <span>{{ total() | currency:'$':'symbol':'1.0-0' }}</span>
         </p>
 
-        <button class="checkout-button" (click)="openPaymentModal()">Finalizar Compra</button>
+        <button class="checkout-button" (click)="openPaymentModal()" [disabled]="total() === 0">
+            Finalizar Compra</button>
+
+        <div class="instructions-footer">
+            <h4>Instrucciones Importantes</h4>
+            <p>1. Envía la captura de pantalla del pago al WhatsApp de soporte.</p>
+            <p>2. Recibirás tus credenciales en menos de 10 minutos.</p>
+        </div>
     </div>
     }
 </div>
 
 <!-- Modal de pago -->
-@if (showModal) {
+@if (isPaymentModalOpen()) {
 <div class="modal-overlay" (click)="closePaymentModal()">
     <div class="modal" (click)="$event.stopPropagation()">
-        <button class="cerrar" (click)="closePaymentModal()">✕</button>
-
-        <div class="qr-section">
-            <h4>Nequi o Bre-B</h4>
-            <img src="qr/nequi.png" alt="QR Nequi" class="qr">
-
-            <div class="info">
-                <span>Número: 312 583 3369</span>
-                <button class="btn-copy" (click)="copyNequiNumber()" title="Copiar número">📋</button>
-            </div>
-
-            @if (copied) {
-            <p class="copiado">Número copiado ✅</p>
-            }
-        </div>
+        <app-payment-modal [totalToPay]="total()" (close)="closePaymentModal()"></app-payment-modal>
     </div>
 </div>
 }

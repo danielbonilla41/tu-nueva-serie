@@ -1,19 +1,22 @@
-import { Component, inject, computed, Signal } from '@angular/core';
+import { Component, inject, computed, Signal, signal } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { DataService } from '../../core/services/data.service';
 import { PriceAccount } from '../../models/price-account.model';
+import { PaymentModal } from './payment-modal/payment-modal';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe],
+  imports: [CommonModule, CurrencyPipe, PaymentModal],
   templateUrl: './cart.html',
   styleUrl: './cart.css'
 })
 export class Cart {
   private dataService = inject(DataService);
   copied = false;
-  showModal = false;
+
+  // Señal para controlar la visibilidad del modal de pago
+  isPaymentModalOpen = signal(false);
 
   //Señal que contiene los productos en el carrito
   shoppingCart: Signal<PriceAccount[]> = this.dataService.shoppingCartSignal;
@@ -74,15 +77,16 @@ export class Cart {
     this.dataService.removeFromCart(platform);
   }
 
-  // Mostrar ventana emergente
+  // Método para abrir el modal
   openPaymentModal(): void {
-    this.showModal = true;
+    if (this.total() > 0) {
+      this.isPaymentModalOpen.set(true);
+    }
   }
 
-  // Cerrar ventana emergente
+  // Nuevo método para cerrar el modal
   closePaymentModal(): void {
-    this.showModal = false;
-    this.copied = false;
+    this.isPaymentModalOpen.set(false);
   }
 
   /**Copiar número de Nequi al portapapeles */

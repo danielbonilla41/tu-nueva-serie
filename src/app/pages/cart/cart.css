@@ -184,115 +184,23 @@
   transform: translateY(-1px);
 }
 
-/* ================================================= */
-/* --- ESTILOS DEL MODAL DE PAGO (QR) --- */
-/* ================================================= */
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+/* --- Instrucciones --- */
+.instructions-footer {
+    text-align: left;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #e0e0e0;
 }
 
-.modal {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 16px;
-  position: relative;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  animation: fadeIn 0.3s ease;
-  border-top: 5px solid #4125d9;
-  /* Borde superior destacado */
+.instructions-footer h4 {
+    color: #7c25d9;
+    margin-bottom: 1rem;
+    font-size: 1.2em;
 }
 
-.cerrar {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  color: #7c25d9;
-  /* Color Acento 2 */
-  font-size: 1.6rem;
-  transition: color 0.2s;
-}
-
-.cerrar:hover {
-  color: #b625d9;
-}
-
-.qr-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.qr-item h4 {
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #4125d9;
-  /* Color Principal en el título del método */
-}
-
-.qr {
-  width: 100%;
-  max-width: 330px;
-  height: auto;
-  margin-bottom: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-}
-
-.info {
-  font-size: 0.95rem;
-  color: #555;
-}
-
-.metodos {
-  margin-top: 2rem;
-  text-align: left;
-  padding-top: 1.5rem;
-  border-top: 1px dashed #e0e0e0;
-}
-
-.metodos h4 {
-  color: #7c25d9;
-  /* Acento 2 en el título de métodos alternativos */
-  margin-bottom: 1rem;
-}
-
-.metodos p {
-  margin: 0.6rem 0;
-  font-weight: 500;
-  color: #333;
-}
-
-.precio-modal {
-  font-size: 1.3em;
-  color: #1a1a1a;
-  font-weight: 700;
-  margin: 1.5rem 0 2rem;
-  padding: 10px;
-  background-color: #f9f9ff;
-  border-radius: 8px;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.instructions-footer ul {
+    list-style: disc;
+    padding-left: 25px;
+    color: #333;
+    font-size: 0.95em;
 }
