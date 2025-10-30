@@ -6,7 +6,7 @@
 
 .app-header {
     background-color: #000000; /* Fondo blanco para el header */
-    padding: 15px 0;
+    padding: 1px 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra sutil para destacar el elemento fijo */
     border-bottom: 2px solid #f0f0f0; /* Línea suave para separar del contenido */
     
@@ -15,7 +15,8 @@
     top: 0;          
     left: 0;         
     width: 100%;     
-    z-index: 1000;   
+    z-index: 1000;
+    height: 70px;   
 }
 
 .header-container {
@@ -45,7 +46,7 @@
 
 /* Estilo de la Imagen del Logo */
 .header-logo-img {
-    height: 35px; /* Altura ajustada para el diseño */
+    height: 70px; /* Altura ajustada para el diseño */
     width: auto;
     display: block; 
 }
