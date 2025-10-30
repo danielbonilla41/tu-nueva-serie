@@ -1,0 +1,33 @@
+.whatsapp-btn {
+    /* ⭐️ CLAVE: Posición fija para que flote ⭐️ */
+    position: fixed; 
+    bottom: 25px; /* Margen inferior */
+    right: 25px; /* Margen derecho */
+    
+    /* Estilos visuales */
+    background-color: #25D366; /* Color de WhatsApp */
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Forma circular */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    
+    /* ⭐️ CLAVE: Asegura que esté por encima de todo ⭐️ */
+    z-index: 10000; 
+    
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.whatsapp-btn:hover {
+    background-color: #128C7E; /* Tono más oscuro al pasar el ratón */
+    transform: scale(1.1) rotate(5deg); /* Efecto sutil */
+}
+
+.whatsapp-btn svg {
+    width: 32px; /* Tamaño del icono */
+    height: 32px;
+    fill: white;
+}
