@@ -9,8 +9,8 @@
     "test": "ng test",
     "serve:ssr:tu-nueva-serie": "node dist/tu-nueva-serie/server/server.mjs",
     "predeploy": "ng build --configuration production --base-href /tu-nueva-serie/",
-    "deploy": "npx angular-cli-ghpages -d dist/tu-nueva-serie",
-    "postdeploy": "cd dist/tu-nueva-serie && cp index.html 404.html && cd - && git add . && git commit -m \"Fix 404 for routing\" && git push origin gh-pages"
+    "deploy": "npx angular-cli-ghpages -d dist/tu-nueva-serie/browser",
+    "postdeploy": "cd dist/tu-nueva-serie && cp index.csr.html 404.html && cd - && git add . && git commit -m \"Fix 404 for routing\" && git push origin gh-pages"
   },
   "prettier": {
     "printWidth": 100,
