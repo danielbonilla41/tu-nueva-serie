@@ -25,6 +25,8 @@
     /* Configuración para un layout responsive de 280px de ancho mínimo */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
+    margin-top: 25px;
+    padding: 10px;
 }
 
 /* ================================================= */

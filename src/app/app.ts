@@ -3,11 +3,12 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DataService } from './core/services/data.service';
 import { WhatsappFloat } from './shared/whatsapp-float/whatsapp-float';
+import { Footer } from './shared/footer/footer';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, CommonModule, WhatsappFloat],
+  imports: [RouterOutlet, RouterLink, CommonModule, WhatsappFloat, Footer],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })
