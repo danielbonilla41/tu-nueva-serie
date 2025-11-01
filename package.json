@@ -10,7 +10,7 @@
     "serve:ssr:tu-nueva-serie": "node dist/tu-nueva-serie/server/server.mjs",
     "predeploy": "ng build --configuration production --base-href /tu-nueva-serie/",
     "deploy": "npx angular-cli-ghpages -d dist/tu-nueva-serie/browser",
-    "postdeploy": "cd dist/tu-nueva-serie/browser && cp index.csr.html 404.html && cd - && git add . && git commit -m \"Fix 404 for routing (using index.csr.html)\" && git push origin gh-pages"
+    "postdeploy": "cd dist/tu-nueva-serie/browser && cp index.csr.html index.html && cp index.html 404.html && cd - && git add . && git commit -m \"Fix root and 404 routing with index.csr.html\" && git push origin gh-pages"
   },
   "prettier": {
     "printWidth": 100,
