@@ -1,23 +1,28 @@
-<dialog #modalDialog (close)="onClose()">
+<dialog #modalDialog class="feature-dialog-base" (close)="onClose()">
     @if (platform) {
-    <div class="modal-header">
-        <h3>Características de {{ platform.name }}</h3>
-        <button class="close-btn" (click)="onClose()">&times;</button>
-    </div>
+    <div class="modal-content-wrapper">
+        <button class="close-btn-top" (click)="onClose()">✕</button> 
 
-    <div class="modal-content">
-        <img [src]="platform.iconUrl" [alt]="platform.name + ' Logo'" class="platform-modal-icon">
+        <div class="modal-header-cohesive">
+            <img [src]="platform.iconUrl" [alt]="platform.name + ' Logo'" class="platform-icon-header">
+            <h3>Características de {{ platform.name }}</h3>
+        </div>
 
-        <h4>Beneficios de la suscripción:</h4>
-        <ul class="features-list-modal">
-            @for (feature of platform.features; track feature) {
-            <li>✅ {{ feature }}</li>
-            }
-        </ul>
-    </div>
+        <div class="modal-body-content">
+            <h4>Beneficios de la suscripción:</h4>
+            <ul class="features-list">
+                @for (feature of platform.features; track feature) {
+                <li class="feature-item">
+                    <span class="feature-bullet">✓</span>
+                    {{ feature }}
+                </li>
+                }
+            </ul>
+        </div>
 
-    <div class="modal-footer">
-        <button (click)="onClose()">Entendido</button>
+        <div class="modal-footer-cohesive">
+            <button class="understand-btn" (click)="onClose()">Entendido</button>
+        </div>
     </div>
     }
 </dialog>

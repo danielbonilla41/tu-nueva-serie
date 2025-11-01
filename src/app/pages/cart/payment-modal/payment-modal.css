@@ -10,7 +10,6 @@
 
 .modal {
     background: #fff;
-    /* ⭐️ AJUSTE CLAVE: Reducir padding horizontal para ganar espacio en móvil ⭐️ */
     padding: 2rem 1.2rem; /* Vertical 2rem, Horizontal 1.2rem */
     border-radius: 16px;
     position: relative;
