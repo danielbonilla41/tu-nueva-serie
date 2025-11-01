@@ -11,7 +11,10 @@ export class DataService {
     { name: 'PrimeVideo', price: 4900, iconUrl: 'icons/primevideo.png', features: this.featuresPrime() },
     { name: 'Max', price: 6900, iconUrl: 'icons/max.png', features: this.featuresMax() },
     { name: 'Crunchyroll', price: 4900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() },
-    { name: 'Paramount+', price: 5500, iconUrl: 'icons/paramount.png', features: this.featuresParamount() }
+    { name: 'Paramount+', price: 5500, iconUrl: 'icons/paramount.png', features: this.featuresParamount() },
+    { name: 'DGO 1 dispositvo', price: 11000, iconUrl: 'icons/dgo.png', features: this.featuresDgo1() },
+    { name: 'DGO 2 dispositivos', price: 15000, iconUrl: 'icons/dgo.png', features: this.featuresDgo2() },
+    { name: 'DGO Win Sports +', price: 20000, iconUrl: 'icons/dgo.png', features: this.featuresDgoWin() }
   ];
 
   // Signal para la lista de plataformas (las disponibles)
@@ -66,40 +69,48 @@ export class DataService {
 
   private featuresNetflix(): string[] {
     return [
+      '1 Perfil.',
+      '1 mes.',
+      'Control de perfiles.',
+      'Renovación de cuenta y perfil. *',
       'Acceso ilimitado a películas y series',
       'Descargas para ver sin conexión',
       'Calidad HD y Ultra HD',
-      'Perfiles personalizados',
       'Recomendaciones basadas en tu historial de visualización'
     ];
   }
 
   private featuresDisney(): string[] {
     return [
+      '1 Perfil.',
+      '1 mes.',
+      'Control de perfiles.',
+      'Renovación de cuenta y perfil. *',
       'Contenido de Disney, Pixar, Marvel, Star Wars',
       'Descargas ilimitadas en 10 dispositivos',
-      'Calidad 4K UHD y HDR',
-      'Hasta 4 streams simultáneos',
-      'Sin costo adicional por 4K/UHD'
+      'Calidad 4K UHD y HDR'
     ];
   }
 
   private featuresPrime(): string[] {
     return [
-      'Envíos gratis de Amazon Prime',
-      'Prime Gaming incluido',
+      '1 Perfil.',
+      '1 mes.',
+      'Control de perfiles.',
       'Calidad 4K Ultra HD',
-      'Hasta 3 streams simultáneos',
       'Descargas disponibles'
     ];
   }
 
   private featuresMax(): string[] {
     return [
+      '1 Perfil.',
+      '1 mes.',
+      'Control de perfiles.',
+      'Renovación de cuenta y perfil. *',
       'Contenido de HBO, DC, Warner',
       'Calidad 4K Ultra HD',
       'Descargas offline',
-      'Perfiles personalizados',
       'Contenido sin anuncios'
     ];
   }
@@ -109,8 +120,7 @@ export class DataService {
       'Acceso a miles de episodios de anime',
       'Simulcasts al mismo tiempo que Japón',
       'Calidad HD y 4K',
-      'Descargas para ver sin conexión',
-      'Sin anuncios en la versión premium'
+      'Descargas para ver sin conexión'
     ];
   }
 
@@ -119,8 +129,32 @@ export class DataService {
       'Acceso a películas y series de Paramount',
       'Contenido exclusivo de CBS, MTV, Nickelodeon',
       'Calidad HD y 4K',
-      'Descargas para ver sin conexión',
-      'Perfiles personalizados'
+      'Descargas para ver sin conexión'
+    ];
+  }
+
+  private featuresDgo1(): string[] {
+    return [
+      '1 Perfil.',
+      '29 Días',
+      'PLAN ORO'
+    ];
+  }
+
+  private featuresDgo2(): string[] {
+    return [
+      '2 Perfil.',
+      '29 Días',
+      'PLAN ORO'
+    ];
+  }
+
+  private featuresDgoWin(): string[] {
+    return [
+      '1 Perfil.',
+      '29 Días',
+      'Win sports +',
+      'PLAN ORO'
     ];
   }
 }
