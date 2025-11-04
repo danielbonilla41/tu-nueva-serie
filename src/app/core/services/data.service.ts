@@ -14,7 +14,7 @@ export class DataService {
     { name: 'Paramount+', price: 5500, iconUrl: 'icons/paramount.png', features: this.featuresParamount() },
     { name: 'DGO 1 dispositvo', price: 11000, iconUrl: 'icons/dgo.png', features: this.featuresDgo1() },
     { name: 'DGO 2 dispositivos', price: 15000, iconUrl: 'icons/dgo.png', features: this.featuresDgo2() },
-    { name: 'DGO Win Sports +', price: 20000, iconUrl: 'icons/dgo.png', features: this.featuresDgoWin() }
+    { name: 'DGO Win Sports +', price: 28000, iconUrl: 'icons/dgo.png', features: this.featuresDgoWin() }
   ];
 
   // Signal para la lista de plataformas (las disponibles)
