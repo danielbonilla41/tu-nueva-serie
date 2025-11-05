@@ -9,7 +9,7 @@
     "test": "ng test",
     "serve:ssr:tu-nueva-serie": "node dist/tu-nueva-serie/server/server.mjs",
     "predeploy": "ng build --configuration production --base-href /",
-    "fix:files": "cp dist/tu-nueva-serie/browser/index.csr.html dist/tu-nueva-serie/browser/index.html && cp dist/tu-nueva-serie/browser/index.html dist/tu-nueva-serie/browser/404.html",
+    "fix:files": "cp CNAME dist/tu-nueva-serie/browser/CNAME && cp dist/tu-nueva-serie/browser/index.csr.html dist/tu-nueva-serie/browser/index.html && cp dist/tu-nueva-serie/browser/index.html dist/tu-nueva-serie/browser/404.html",
     "deploy": "npm run predeploy && npm run fix:files && npx angular-cli-ghpages -d dist/tu-nueva-serie/browser"
   },
   "prettier": {
