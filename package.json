@@ -10,7 +10,7 @@
     "serve:ssr:tu-nueva-serie": "node dist/tu-nueva-serie/server/server.mjs",
     "predeploy": "ng build --configuration production --base-href /",
     "deploy": "npx angular-cli-ghpages -d dist/tu-nueva-serie/browser",
-    "postdeploy": "cd dist/tu-nueva-serie/browser && cp index.csr.html index.html && cp index.html 404.html && cd -"
+    "postdeploy": "cp dist/tu-nueva-serie/browser/index.csr.html dist/tu-nueva-serie/browser/index.html && cp dist/tu-nueva-serie/browser/index.html dist/tu-nueva-serie/browser/404.html"
   },
   "prettier": {
     "printWidth": 100,
