@@ -10,7 +10,7 @@
     "serve:ssr:tu-nueva-serie": "node dist/tu-nueva-serie/server/server.mjs",
     "predeploy": "ng build --configuration production --base-href /",
     "deploy:run": "npx angular-cli-ghpages -d dist/tu-nueva-serie/browser",
-    "postdeploy": "cp dist/tu-nueva-serie/browser/index.csr.html dist/tu-nueva-serie/browser/index.html && cp dist/tu-nueva-serie/browser/index.html dist/tu-nueva-serie/browser/404.html && git add dist/tu-nueva-serie/browser/index.html dist/tu-nueva-serie/browser/404.html && git commit -m \"fix: Subir index.html y 404.html para routing\" --allow-empty && git push origin gh-pages",
+    "postdeploy": "cp dist/tu-nueva-serie/browser/index.csr.html dist/tu-nueva-serie/browser/index.html && cp dist/tu-nueva-serie/browser/index.html dist/tu-nueva-serie/browser/404.html && git add -f dist/tu-nueva-serie/browser/index.html dist/tu-nueva-serie/browser/404.html && git commit -m \"fix: Subir index.html y 404.html para routing\" --allow-empty && git push origin gh-pages",
     "deploy": "npm run predeploy && npm run deploy:run && npm run postdeploy"
   },
   "prettier": {
