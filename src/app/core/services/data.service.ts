@@ -48,7 +48,6 @@ export class DataService {
       }
       return currentCart; // Si ya está, devuelve el carrito sin cambios
     });
-    console.log(`${platform.name} añadido al carrito.`);
   }
 
   // El método de eliminación es correcto si solo hay una instancia de cada plataforma.
