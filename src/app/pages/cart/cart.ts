@@ -14,19 +14,20 @@ import { PaymentModal } from './payment-modal/payment-modal';
 export class Cart {
   private dataService = inject(DataService);
   copied = false;
-
   // Señal para controlar la visibilidad del modal de pago
   isPaymentModalOpen = signal(false);
-
   //Señal que contiene los productos en el carrito
   shoppingCart: Signal<PriceAccount[]> = this.dataService.shoppingCartSignal;
-
   //Objeto que define las tasas de descuento
   readonly DISCOUNTS = {
     TWO_ITEMS: 0.05, // 5%
     THREE_ITEMS: 0.07, // 7%
     FOUR_OR_MORE_ITEMS: 0.10 // 10%
   };
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0); 
+  }
 
   // ----------------------------------------------------
   // Cálculos Reactivos (Computed Signals)

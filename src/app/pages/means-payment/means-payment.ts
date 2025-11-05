@@ -17,15 +17,19 @@ export class MeansPayment {
   // Señal para mostrar el estado de copiado al usuario
   copyStatus = signal<string | null>(null);
 
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
+  }
+
   // MÉTODO DE COPIADO
   async copyToClipboard(textToCopy: string): Promise<void> {
     try {
       // 1. Usa la API del portapapeles
       await navigator.clipboard.writeText(textToCopy);
-      
+
       // 2. Muestra la notificación de éxito
       this.copyStatus.set(`¡Copiado!`);
-      
+
       // 3. Oculta la notificación después de 3 segundos
       setTimeout(() => {
         this.copyStatus.set(null);

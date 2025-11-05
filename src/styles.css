@@ -8,6 +8,10 @@
     box-sizing: border-box; 
 }
 
+html, body {
+    height: 100%; 
+}
+
 /* Base de la Tipografía y Fondo */
 body {
     font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
@@ -15,6 +19,7 @@ body {
     color: #333; /* Texto oscuro para buen contraste */
     background-color: #f4f6f9; /* Fondo muy claro */
     min-height: 100vh;
+    overflow-y: scroll;
 }
 
 /* Enlaces por defecto */

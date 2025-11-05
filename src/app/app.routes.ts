@@ -3,8 +3,6 @@ import { Accounts } from './pages/accounts/accounts';
 import { Cart } from './pages/cart/cart';
 import { MeansPayment } from './pages/means-payment/means-payment';
 export const routes: Routes = [
-    // 1. RUTA PRINCIPAL (RAÍZ)
-    // Redirige la URL base (http://localhost:4200/) a la ruta '/accounts'.
     {
         path: '',
         redirectTo: 'accounts',
