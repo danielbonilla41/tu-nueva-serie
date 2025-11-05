@@ -9,8 +9,9 @@
     "test": "ng test",
     "serve:ssr:tu-nueva-serie": "node dist/tu-nueva-serie/server/server.mjs",
     "predeploy": "ng build --configuration production --base-href /",
-    "deploy": "npx angular-cli-ghpages -d dist/tu-nueva-serie/browser",
-    "postdeploy": "cp dist/tu-nueva-serie/browser/index.csr.html dist/tu-nueva-serie/browser/index.html && cp dist/tu-nueva-serie/browser/index.html dist/tu-nueva-serie/browser/404.html"
+    "deploy:run": "npx angular-cli-ghpages -d dist/tu-nueva-serie/browser",
+    "postdeploy": "cp dist/tu-nueva-serie/browser/index.csr.html dist/tu-nueva-serie/browser/index.html && cp dist/tu-nueva-serie/browser/index.html dist/tu-nueva-serie/browser/404.html",
+    "deploy": "npm run predeploy && npm run deploy:run && npm run postdeploy && npx angular-cli-ghpages -d dist/tu-nueva-serie/browser --no-build"
   },
   "prettier": {
     "printWidth": 100,
