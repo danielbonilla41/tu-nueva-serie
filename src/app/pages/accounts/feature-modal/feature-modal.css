@@ -3,13 +3,22 @@
 /* ================================================= */
 
 .feature-dialog-base {
-    border: none;
+   border: none;
     padding: 0;
-    border-radius: 16px;
+    border-radius: 16px; 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     width: 90%;
-    max-width: 450px;
+    max-width: 450px; 
     background-color: #ffffff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    z-index: 1000;
+    opacity: 0; 
+    transform: translate(-50%, -60%);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
 
 .feature-dialog-base::backdrop {
@@ -17,14 +26,26 @@
     transition: opacity 0.3s ease-in-out;
 }
 
+.feature-dialog-base[open] {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+.feature-dialog-base::backdrop {
+    background-color: rgba(0, 0, 0, 0.0);
+    transition: background-color 0.3s ease-out; 
+}
+
+.feature-dialog-base[open]::backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
 .modal-content-wrapper {
     background: #fff;
     padding: 2rem 1.2rem;
     border-radius: 16px;
     position: relative;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
+    width: 100%;
     box-shadow: none;
     border-top: 5px solid #4125d9;
 }
