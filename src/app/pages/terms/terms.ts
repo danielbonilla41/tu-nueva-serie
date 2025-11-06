@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-terms',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './terms.html',
   styleUrl: './terms.css'
 })

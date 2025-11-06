@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Accounts } from './pages/accounts/accounts';
 import { Cart } from './pages/cart/cart';
 import { MeansPayment } from './pages/means-payment/means-payment';
+import { Terms } from './pages/terms/terms';
 export const routes: Routes = [
     {
         path: '',
@@ -22,6 +23,11 @@ export const routes: Routes = [
         path: 'payment',
         component: MeansPayment,
         title: 'Medios de pago'
+    },
+    {
+        path: 'terms-and-conditions',
+        component: Terms,
+        title: 'Términos y Condiciones'
     },
     {
         path: '**',

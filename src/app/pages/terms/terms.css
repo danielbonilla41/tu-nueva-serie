@@ -1,0 +1,89 @@
+/* src/app/pages/terms-conditions/terms-conditions.component.css */
+
+.terms-page-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.terms-page-container h1 {
+    font-size: 2.5em;
+    color: #4125d9; /* Color Principal */
+    border-bottom: 3px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    font-weight: 800;
+}
+
+.terms-section {
+    margin-bottom: 40px;
+}
+
+.terms-section h2 {
+    font-size: 1.8em;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    border-left: 5px solid #7c25d9; /* Acento visual en la sección */
+    padding-left: 15px;
+}
+
+.terms-section h3, .terms-section h4 {
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.styled-list {
+    list-style: none;
+    padding: 0;
+}
+
+.styled-list li {
+    background-color: #f9f9f9;
+    border-left: 4px solid #4125d9;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    line-height: 1.6;
+    font-size: 1.05em;
+}
+
+/* Texto de Advertencia */
+.warning-text {
+    color: #dc3545; /* Rojo de advertencia */
+    font-weight: 600;
+    padding: 10px;
+    border: 1px dashed #dc3545;
+    background-color: #fff0f0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Grid para Horario de Atención */
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.schedule-item {
+    background-color: #f4f6f9;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #28a745; /* Verde para destacar el horario */
+}
+
+.schedule-item h4 {
+    margin-bottom: 8px;
+    color: #4125d9;
+    font-size: 1.1em;
+}
+
+.schedule-item p {
+    margin: 5px 0;
+    color: #555;
+}
