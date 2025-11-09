@@ -1,4 +1,4 @@
-import { Injectable, signal, Signal } from '@angular/core';
+import { inject, Injectable, signal, Signal } from '@angular/core';
 import { PriceAccount } from '../../models/price-account.model';
 
 @Injectable({ providedIn: 'root' })
@@ -7,7 +7,7 @@ export class DataService {
   // Datos estáticos
   private staticData: PriceAccount[] = [
     { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png', features: this.featuresNetflix() },
-    { name: 'Disney+ Premium', price: 7900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
+    { name: 'Disney+ Premium', price: 10900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
     { name: 'PrimeVideo', price: 5500, iconUrl: 'icons/primevideo.png', features: this.featuresPrime() },
     { name: 'Max', price: 6900, iconUrl: 'icons/max.png', features: this.featuresMax() },
     { name: 'Crunchyroll', price: 4900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() },
