@@ -7,14 +7,14 @@ export class DataService {
   // Datos estáticos
   private staticData: PriceAccount[] = [
     { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png', features: this.featuresNetflix() },
-    { name: 'Disney+ Premium', price: 10900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
+    { name: 'Disney+ Premium', price: 11900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
     { name: 'PrimeVideo', price: 5500, iconUrl: 'icons/primevideo.png', features: this.featuresPrime() },
     { name: 'Max', price: 6900, iconUrl: 'icons/max.png', features: this.featuresMax() },
     { name: 'Crunchyroll', price: 4900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() },
     { name: 'Paramount+', price: 5500, iconUrl: 'icons/paramount.png', features: this.featuresParamount() },
-    { name: 'DGO 1 dispositvo', price: 11000, iconUrl: 'icons/dgo.png', features: this.featuresDgo1() },
-    { name: 'DGO 2 dispositivos', price: 15000, iconUrl: 'icons/dgo.png', features: this.featuresDgo2() },
-    { name: 'DGO Win Sports +', price: 28000, iconUrl: 'icons/dgo.png', features: this.featuresDgoWin() }
+    { name: 'DGO 1 dispositvo', price: 15900, iconUrl: 'icons/dgo.png', features: this.featuresDgo1() },
+    { name: 'DGO 2 dispositivos', price: 27000, iconUrl: 'icons/dgo.png', features: this.featuresDgo2() },
+    { name: 'DGO Win Sports +', price: 29900, iconUrl: 'icons/dgo.png', features: this.featuresDgoWin() }
   ];
 
   // Signal para la lista de plataformas (las disponibles)
