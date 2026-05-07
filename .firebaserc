@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "dalutechnology-97d84"
-  }
+  },
+  "targets": {
+    "dalutechnology-97d84": {
+      "hosting": {
+        "tunuevaserie": [
+          "tunuevaserie"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
