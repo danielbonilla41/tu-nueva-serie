@@ -1,89 +1,76 @@
 <div class="admin-container">
-    <header class="view-header">
-        <div class="title-section">
-            <button class="btn-icon" (click)="goBack()">←</button>
-            <div>
-                <h1>Gestión de Perfiles</h1>
-                <p class="subtitle">Plataforma: <strong>{{ platformName() | uppercase }}</strong></p>
-            </div>
-        </div>
-    </header>
+    <div class="top-nav">
+        <button class="btn-back" routerLink="/admin/catalog">
+            <span class="icon">←</span> Volver al Catálogo
+        </button>
+    </div>
 
-    <!-- Registro de Cuenta (Se mantiene tu lógica dinámica) -->
-    <section class="form-section">
-        <div class="card form-card">
-            <h3>➕ Registro de Cuenta</h3>
-
-            @if (!isConfiguringProfiles()) {
-            <div class="form-grid">
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" [(ngModel)]="newAccount.email">
-                </div>
-                <div class="input-group">
-                    <label>Password</label>
-                    <input type="text" [(ngModel)]="newAccount.password">
-                </div>
-                <div class="input-group">
-                    <label>Fecha Compra</label>
-                    <input type="date" [(ngModel)]="newAccount.purchase_date">
-                </div>
-                <div class="input-group">
-                    <label>Fecha Renovación</label>
-                    <input type="date" [(ngModel)]="newAccount.renewal_date">
-                </div>
-                <div class="input-group">
-                    <label>Perfiles</label>
-                    <input type="number" [ngModel]="profileCount()" (ngModelChange)="profileCount.set($event)" min="1"
-                        max="7">
-                </div>
-                <button class="btn-primary" (click)="prepareProfiles()">Configurar</button>
-            </div>
-            } @else {
-            <div class="profiles-config">
-                <h4 class="config-title">Configuración de Perfiles</h4>
-
-                <div class="profile-edit-header">
-                    <span>Nombre del Perfil</span>
-                    <span>PIN</span>
-                </div>
-
-                @for (p of tempProfiles(); track $index) {
-                <div class="profile-edit-row">
-                    <input [(ngModel)]="p.name" placeholder="Ej: Perfil 1">
-                    <input [(ngModel)]="p.pin" placeholder="0000" maxlength="5">
-                </div>
-                }
-
-                <div class="config-actions">
-                    <button class="btn-danger-outline" (click)="isConfiguringProfiles.set(false)">Cancelar</button>
-                    <button class="btn-success" (click)="addAccount()">Guardar en Firebase</button>
-                </div>
-            </div>
-            }
-        </div>
-    </section>
-
-    <!-- Listado de Cuentas (Sin botón eliminar y con todos los campos) -->
+    <!-- SECCIÓN ÚNICA: GESTIÓN DE CUENTAS EXISTENTES -->
     <section class="list-section">
+        <div class="list-header">
+            <div class="header-title">
+                <h3>📋 Panel de Gestión de Cuentas</h3>
+                <p>Administra accesos, perfiles y estados de venta en tiempo real.</p>
+            </div>
+        </div>
+
         <div class="accounts-grid">
             @for (acc of accounts(); track acc.id) {
-            <div class="card account-card">
+            <div class="card account-card" [class.is-editing-card]="editingAccountId() === acc.id">
+
+                <!-- CABECERA DE CUENTA -->
                 <div class="account-header">
                     <div class="acc-meta">
                         <span class="status-dot"></span>
-                        <div class="acc-details">
+                        <div class="acc-info">
+                            @if (editingAccountId() === acc.id) {
+                            <div class="inline-edit-fields">
+                                <input class="header-input" [(ngModel)]="tempEditingAccount()!.email"
+                                    placeholder="Email">
+                                <input class="header-input" [(ngModel)]="tempEditingAccount()!.password"
+                                    placeholder="Password">
+                            </div>
+                            } @else {
                             <h4>{{ acc.email }}</h4>
                             <code>{{ acc.password }}</code>
+                            }
                         </div>
                     </div>
-                    <!-- Información de fechas de la cuenta principal -->
-                    <div class="acc-dates">
-                        <span>📅 Compra: <strong>{{ acc.purchase_date | date:'dd/MM/yy' }}</strong></span>
-                        <span>🔄 Renueva: <strong>{{ acc.renewal_date | date:'dd/MM/yy' }}</strong></span>
+
+                    <div class="acc-actions-area">
+                        <div class="acc-dates-info">
+                            @if (editingAccountId() === acc.id) {
+                            <div class="edit-dates-box">
+                                <div class="date-field">
+                                    <label>Compra</label>
+                                    <input type="date" [(ngModel)]="tempEditingAccount()!.purchase_date">
+                                </div>
+                                <div class="date-field">
+                                    <label>Renueva</label>
+                                    <input type="date" [(ngModel)]="tempEditingAccount()!.renewal_date">
+                                </div>
+                            </div>
+                            } @else {
+                            <div class="static-dates">
+                                <span>📅 <strong>Compra:</strong> {{ acc.purchase_date | date:'dd/MM/yy' }}</span>
+                                <span>🔄 <strong>Renueva:</strong> {{ acc.renewal_date | date:'dd/MM/yy' }}</span>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="action-buttons">
+                            @if (editingAccountId() === acc.id) {
+                            <button class="btn-icon save" (click)="saveInlineEdit()" title="Guardar Cambios">✔️</button>
+                            <button class="btn-icon cancel" (click)="cancelEdit()" title="Descartar">❌</button>
+                            } @else {
+                            <button class="btn-icon edit" (click)="startEdit(acc)"
+                                title="Editar esta cuenta">✏️</button>
+                            }
+                        </div>
                     </div>
                 </div>
 
+                <!-- TABLA DE PERFILES -->
                 <div class="table-container">
                     <table class="profiles-table">
                         <thead>
@@ -93,19 +80,42 @@
                                 <th>Compra</th>
                                 <th>Teléfono</th>
                                 <th>Renovación</th>
-                                <th>Estado</th>
+                                <th class="text-center">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @for (prof of acc.profiles; track $index) {
-                            <tr [class.is-sold]="prof.sold">
-                                <td><strong>{{ prof.name }}</strong></td>
-                                <td><span class="pin-badge">{{ prof.pin || '----' }}</span></td>
-                                <td>{{ prof.purchase_date | date:'dd/MM/yy' }}</td>
-                                <td>{{ prof.phone_number || 'N/A' }}</td>
-                                <td>{{ prof.renewal_date || 'Pendiente' }}</td>
+                            @let isEditing = (editingAccountId() === acc.id);
+                            @let currentProfiles = isEditing ? tempEditingAccount()!.profiles : acc.profiles;
+
+                            @for (prof of currentProfiles; track $index) {
+                            <tr [class.sold-row]="prof.sold">
                                 <td>
-                                    <button [class]="prof.sold ? 'btn-sold' : 'btn-available'"
+                                    @if (isEditing) { <input class="table-input" [(ngModel)]="prof.name"> }
+                                    @else { <span class="name-text">{{ prof.name }}</span> }
+                                </td>
+                                <td>
+                                    @if (isEditing) { <input class="table-input pin" [(ngModel)]="prof.pin"
+                                        maxlength="5"> }
+                                    @else { <span class="pin-badge">{{ prof.pin || '----' }}</span> }
+                                </td>
+                                <td>
+                                    @if (isEditing) { <input type="date" class="table-input"
+                                        [(ngModel)]="prof.purchase_date"> }
+                                    @else { {{ prof.purchase_date | date:'dd/MM/yy' }} }
+                                </td>
+                                <td>
+                                    @if (isEditing) { <input class="table-input" [(ngModel)]="prof.phone_number"
+                                        placeholder="No asignado"> }
+                                    @else { {{ prof.phone_number || '---' }} }
+                                </td>
+                                <td>
+                                    @if (isEditing) { <input type="date" class="table-input"
+                                        [(ngModel)]="prof.renewal_date"> }
+                                    @else { {{ prof.renewal_date ? (prof.renewal_date | date:'dd/MM/yy') : 'Pendiente'
+                                    }} }
+                                </td>
+                                <td class="text-center">
+                                    <button [class]="prof.sold ? 'btn-tag-sold' : 'btn-tag-avail'"
                                         (click)="onToggleSold(acc, $index)">
                                         {{ prof.sold ? 'Vendido' : 'Disponible' }}
                                     </button>

@@ -1,9 +1,8 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AccountService } from '../../core/services/account.service';
 import { AccountProfile } from '../../models/account-profile';
-import { Profile } from '../../models/profile';
-import { CommonModule, Location } from '@angular/common'; // Importar Location y CommonModule
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,27 +10,21 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   templateUrl: './admin-profiles.html',
   styleUrls: ['./admin-profiles.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, RouterLink] // Añadido RouterLink para el botón de volver
 })
 export class AdminProfilesComponent implements OnInit {
   private accountService = inject(AccountService);
   private route = inject(ActivatedRoute);
   private location = inject(Location);
 
+  // --- Signals de Estado ---
   platformId = signal<string>('');
   platformName = signal<string>('');
   accounts = signal<AccountProfile[]>([]);
-  isConfiguringProfiles = signal<boolean>(false);
-  tempProfiles = signal<Profile[]>([]);
-  profileCount = signal<number>(1);
-  newAccount: AccountProfile = {
-    email: '',
-    password: '',
-    account_id: '',
-    purchase_date: new Date().toISOString().split('T')[0], // Fecha de hoy por defecto
-    renewal_date: '',
-    profiles: []
-  };
+  
+  // Gestión de edición inline
+  editingAccountId = signal<string | null>(null);
+  tempEditingAccount = signal<AccountProfile | null>(null);
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -43,10 +36,7 @@ export class AdminProfilesComponent implements OnInit {
     }
   }
 
-  goBack() {
-    this.location.back();
-  }
-
+  // Cargar datos de Firebase según la plataforma
   loadData() {
     this.accountService.getAccountsByPlatform(this.platformId()).subscribe({
       next: (res) => this.accounts.set(res),
@@ -54,78 +44,82 @@ export class AdminProfilesComponent implements OnInit {
     });
   }
 
+  // Navegación hacia atrás (usada en el botón de la interfaz)
+  goBack() {
+    this.location.back();
+  }
+
+  /**
+   * Inicia el modo de edición creando una copia profunda del objeto
+   */
+  startEdit(acc: AccountProfile) {
+    if (!acc.id) return;
+    this.editingAccountId.set(acc.id);
+    // structuredClone es más moderno y seguro para clonar objetos en Angular 20
+    this.tempEditingAccount.set(structuredClone(acc));
+  }
+
+  /**
+   * Cancela la edición y limpia los temporales
+   */
+  cancelEdit() {
+    this.editingAccountId.set(null);
+    this.tempEditingAccount.set(null);
+  }
+
+  /**
+   * Guarda los cambios acumulados en el modo edición
+   */
+  async saveInlineEdit() {
+    const updatedAcc = this.tempEditingAccount();
+    if (updatedAcc && updatedAcc.id) {
+      try {
+        await this.accountService.updateAccount(updatedAcc.id, updatedAcc);
+        this.cancelEdit();
+        console.log('✅ Cuenta actualizada con éxito');
+      } catch (error) {
+        console.error('Error al actualizar:', error);
+        alert('No se pudo guardar la información.');
+      }
+    }
+  }
+
+  /**
+   * Maneja el cambio de estado 'Vendido' / 'Disponible'
+   * Detecta automáticamente si estamos en modo edición o lectura
+   */
   async onToggleSold(account: AccountProfile, index: number) {
-    if (!account.id) return;
+    // Escenario 1: Si estamos editando esta tarjeta específica, modificamos la copia temporal
+    if (this.editingAccountId() === account.id) {
+      const temp = this.tempEditingAccount();
+      if (temp) {
+        temp.profiles[index].sold = !temp.profiles[index].sold;
+        this.tempEditingAccount.set({...temp});
+      }
+    } 
+    // Escenario 2: Cambio rápido en modo lectura (impacto directo en DB)
+    else if (account.id) {
+      const updatedProfiles = [...account.profiles];
+      updatedProfiles[index].sold = !updatedProfiles[index].sold;
 
-    // Clonamos y modificamos el estado
-    const updatedProfiles = [...account.profiles];
-    updatedProfiles[index].sold = !updatedProfiles[index].sold;
-
-    try {
-      await this.accountService.updateAccount(account.id, { profiles: updatedProfiles });
-    } catch (error) {
-      console.error('Error al actualizar:', error);
+      try {
+        await this.accountService.updateAccount(account.id, { profiles: updatedProfiles });
+      } catch (error) {
+        console.error('Error al actualizar estado:', error);
+      }
     }
   }
 
+  /**
+   * Elimina la cuenta completa
+   */
   async onDeleteAccount(id: string | undefined) {
-    if (id && confirm('¿Estás seguro de eliminar esta cuenta?')) {
-      await this.accountService.deleteAccount(id);
+    if (id && confirm('¿Estás seguro de eliminar esta cuenta y todos sus perfiles?')) {
+      try {
+        await this.accountService.deleteAccount(id);
+      } catch (error) {
+        console.error('Error al eliminar:', error);
+      }
     }
   }
-
-  prepareProfiles() {
-    const count = this.profileCount();
-
-    // Solo generamos los datos internos del perfil
-    const profiles: Profile[] = Array.from({ length: count }, (_, i) => ({
-      name: `Perfil ${i + 1}`,
-      pin: '',
-      purchase_date: new Date().toISOString(),
-      phone_number: '',
-      renewal_date: '',
-      sold: false
-    }));
-
-    this.tempProfiles.set(profiles);
-    this.isConfiguringProfiles.set(true);
-  }
-
-  async addAccount() {
-    // Construimos el objeto con el account_id en la raíz
-    const finalAccount: AccountProfile = {
-      email: this.newAccount.email,
-      password: this.newAccount.password,
-      account_id: this.platformId(),
-      purchase_date: this.newAccount.purchase_date,
-      renewal_date: this.newAccount.renewal_date,
-      profiles: this.tempProfiles()
-    };
-
-    try {
-      await this.accountService.createAccount(finalAccount);
-      this.resetForm();
-      this.isConfiguringProfiles.set(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  cancelConfiguration() {
-    this.isConfiguringProfiles.set(false);
-    this.tempProfiles.set([]);
-  }
-
-  private resetForm() {
-    this.newAccount = {
-      email: '',
-      password: '',
-      account_id: '',
-      purchase_date: new Date().toISOString().split('T')[0],
-      renewal_date: '',
-      profiles: []
-    };
-    this.profileCount.set(1);
-  }
-
 }
