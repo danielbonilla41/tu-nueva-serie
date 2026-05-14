@@ -8,12 +8,13 @@ import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withRouterConfig({
       scrollPositionRestoration: 'enabled',
-    } as any)), provideClientHydration(withEventReplay()),
+    } as any)),
+    provideClientHydration(withEventReplay()),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore('tunuevaserie')),    
+    provideBrowserGlobalErrorListeners(),
   ]
 };

@@ -1,6 +1,6 @@
 <div class="platform-list">
 
-    @for (account of priceAccounts(); track account.name) {
+    @for (account of priceAccounts(); track account.id) {
     <div class="platform-card">
         <img [src]="account.iconUrl" [alt]="account.name + ' Logo'" class="platform-icon">
 

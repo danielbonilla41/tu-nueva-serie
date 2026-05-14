@@ -1,0 +1,20 @@
+<div class="admin-catalog-container">
+  <header class="admin-header">
+    <h1>Panel de Administración</h1>
+    <p>Seleccione una plataforma para gestionar perfiles</p>
+  </header>
+
+  <div class="platform-grid">
+    @for (platform of platforms(); track platform.id) {
+      <div class="platform-card" (click)="viewProfiles(platform.name, platform.id)">
+        <div class="icon-container">
+          <img [src]="platform.iconUrl" [alt]="platform.name">
+        </div>
+        <div class="platform-info">
+          <h3>{{ platform.name }}</h3>
+          <span class="badge">Gestionar →</span>
+        </div>
+      </div>
+    }
+  </div>
+</div>
