@@ -5,4 +5,5 @@ export interface Profile {
   phone_number: string;
   renewal_date: string;
   sold: boolean;
+  sold_id?: string;
 }

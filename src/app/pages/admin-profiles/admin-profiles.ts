@@ -5,6 +5,15 @@ import { AccountProfile } from '../../models/account-profile';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+interface SaleData {
+  phone: string;
+  startDate: string;
+  endDate: string;
+  profileIndex: number;
+  account: AccountProfile | null;
+  mode: 'vender' | 'renovar';
+}
+
 @Component({
   selector: 'app-admin-profiles',
   standalone: true,
@@ -21,10 +30,21 @@ export class AdminProfilesComponent implements OnInit {
   platformId = signal<string>('');
   platformName = signal<string>('');
   accounts = signal<AccountProfile[]>([]);
-  
+
   // Gestión de edición inline
   editingAccountId = signal<string | null>(null);
   tempEditingAccount = signal<AccountProfile | null>(null);
+
+  // Signal para controlar el modal
+  showModal = signal<boolean>(false);
+  saleForm = signal<SaleData>({
+    phone: '',
+    startDate: '',
+    endDate: '',
+    profileIndex: -1,
+    account: null,
+    mode: 'vender'
+  });
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -94,9 +114,9 @@ export class AdminProfilesComponent implements OnInit {
       const temp = this.tempEditingAccount();
       if (temp) {
         temp.profiles[index].sold = !temp.profiles[index].sold;
-        this.tempEditingAccount.set({...temp});
+        this.tempEditingAccount.set({ ...temp });
       }
-    } 
+    }
     // Escenario 2: Cambio rápido en modo lectura (impacto directo en DB)
     else if (account.id) {
       const updatedProfiles = [...account.profiles];
@@ -110,16 +130,52 @@ export class AdminProfilesComponent implements OnInit {
     }
   }
 
-  /**
-   * Elimina la cuenta completa
-   */
-  async onDeleteAccount(id: string | undefined) {
-    if (id && confirm('¿Estás seguro de eliminar esta cuenta y todos sus perfiles?')) {
-      try {
-        await this.accountService.deleteAccount(id);
-      } catch (error) {
-        console.error('Error al eliminar:', error);
-      }
+  openSaleModal(acc: AccountProfile, index: number, mode: 'vender' | 'renovar') {
+    const today = new Date();
+    const profile = acc.profiles[index];
+
+    // Cálculo de fecha fin (un mes adelante menos un día para venta, o un mes para renovación)
+    const end = new Date();
+    end.setMonth(today.getMonth() + 1);
+    if (mode === 'vender') end.setDate(today.getDate() - 1);
+
+    this.saleForm.set({
+      phone: mode === 'renovar' ? (profile.phone_number || '') : '',
+      startDate: today.toISOString().split('T')[0],
+      endDate: end.toISOString().split('T')[0],
+      profileIndex: index,
+      account: acc,
+      mode: mode
+    });
+
+    this.showModal.set(true);
+  }
+
+  async confirmSale() {
+    const form = this.saleForm();
+    if (!form.account || form.profileIndex === -1) return;
+
+    // Clonamos los perfiles para no mutar el original directamente
+    const updatedProfiles = [...form.account.profiles];
+    const targetProfile = updatedProfiles[form.profileIndex];
+
+    // Actualizamos los datos del perfil
+    targetProfile.phone_number = form.phone;
+    targetProfile.purchase_date = form.startDate;
+    targetProfile.renewal_date = form.endDate;
+    targetProfile.sold = true;
+
+    // Generar ID único para la transacción si no existe uno
+    targetProfile.sold_id = crypto.randomUUID();
+
+    try {
+      await this.accountService.updateAccount(form.account.id!, { profiles: updatedProfiles });
+      this.showModal.set(false);
+      alert(form.mode === 'vender' ? '✅ Perfil vendido' : '✅ Perfil renovado');
+    } catch (error) {
+      console.error(error);
     }
   }
+
+
 }
