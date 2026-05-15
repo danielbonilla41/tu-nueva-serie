@@ -75,12 +75,12 @@
                     <table class="profiles-table">
                         <thead>
                             <tr>
+                                <th class="text-center">Estado</th>
                                 <th>Nombre</th>
                                 <th>PIN</th>
-                                <th>Compra</th>
                                 <th>Teléfono</th>
+                                <th>Compra</th>
                                 <th>Renovación</th>
-                                <th class="text-center">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,6 +89,12 @@
 
                             @for (prof of currentProfiles; track $index) {
                             <tr [class.sold-row]="prof.sold">
+                                <td class="text-center">
+                                    <button [class]="prof.sold ? 'btn-tag-sold' : 'btn-tag-avail'"
+                                        (click)="onToggleSold(acc, $index)">
+                                        {{ prof.sold ? 'Vendido' : 'Disponible' }}
+                                    </button>
+                                </td>
                                 <td>
                                     @if (isEditing) { <input class="table-input" [(ngModel)]="prof.name"> }
                                     @else { <span class="name-text">{{ prof.name }}</span> }
@@ -99,26 +105,20 @@
                                     @else { <span class="pin-badge">{{ prof.pin || '----' }}</span> }
                                 </td>
                                 <td>
-                                    @if (isEditing) { <input type="date" class="table-input"
-                                        [(ngModel)]="prof.purchase_date"> }
-                                    @else { {{ prof.purchase_date | date:'dd/MM/yy' }} }
-                                </td>
-                                <td>
                                     @if (isEditing) { <input class="table-input" [(ngModel)]="prof.phone_number"
                                         placeholder="No asignado"> }
                                     @else { {{ prof.phone_number || '---' }} }
                                 </td>
                                 <td>
                                     @if (isEditing) { <input type="date" class="table-input"
+                                        [(ngModel)]="prof.purchase_date"> }
+                                    @else { {{ prof.purchase_date | date:'dd/MM/yy' }} }
+                                </td>
+                                <td>
+                                    @if (isEditing) { <input type="date" class="table-input"
                                         [(ngModel)]="prof.renewal_date"> }
                                     @else { {{ prof.renewal_date ? (prof.renewal_date | date:'dd/MM/yy') : 'Pendiente'
                                     }} }
-                                </td>
-                                <td class="text-center">
-                                    <button [class]="prof.sold ? 'btn-tag-sold' : 'btn-tag-avail'"
-                                        (click)="onToggleSold(acc, $index)">
-                                        {{ prof.sold ? 'Vendido' : 'Disponible' }}
-                                    </button>
                                 </td>
                             </tr>
                             }

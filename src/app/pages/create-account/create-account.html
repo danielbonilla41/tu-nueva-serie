@@ -1,0 +1,72 @@
+<div class="create-container">
+  <header class="header">
+    <button class="btn-back" (click)="goBack()">← Volver</button>
+    <div class="title-group">
+      <h1>Nueva Cuenta para {{ platformName() }}</h1>
+      <p>Configura el acceso principal y los perfiles individuales</p>
+    </div>
+  </header>
+
+  <div class="content-grid">
+    <!-- PASO 1: DATOS DE LA CUENTA -->
+    <section class="card form-card">
+      <h3>1. Información de Acceso</h3>
+      <div class="form-grid">
+        <div class="input-group full">
+          <label>Correo Electrónico</label>
+          <input type="email" [(ngModel)]="newAccount.email" placeholder="correo@ejemplo.com">
+        </div>
+
+        <div class="input-group full">
+          <label>Contraseña</label>
+          <input type="text" [(ngModel)]="newAccount.password" placeholder="Contraseña de la cuenta">
+        </div>
+
+        <div class="input-group">
+          <label>Fecha Compra</label>
+          <input type="date" [(ngModel)]="newAccount.purchase_date">
+        </div>
+
+        <div class="input-group">
+          <label>Fecha Renovación</label>
+          <input type="date" [(ngModel)]="newAccount.renewal_date">
+        </div>
+
+        <div class="input-group">
+          <label>Número de Perfiles</label>
+          <input type="number" [(ngModel)]="profileCount" min="1" max="10">
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-next" (click)="prepareProfiles()" [disabled]="isConfiguringProfiles()">
+            Configurar Perfiles ↓
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASO 2: CONFIGURACIÓN DE PERFILES -->
+    @if (isConfiguringProfiles()) {
+      <section class="card profiles-card">
+        <h3>2. Detalles de Perfiles</h3>
+        <div class="profiles-list">
+          @for (p of tempProfiles(); track $index) {
+            <div class="profile-item">
+              <span class="index">#{{ $index + 1 }}</span>
+              <div class="profile-inputs">
+                <input [(ngModel)]="p.name" placeholder="Nombre del perfil">
+                <input [(ngModel)]="p.pin" placeholder="PIN" maxlength="5">
+                <input [(ngModel)]="p.phone_number" placeholder="Teléfono (Opcional)">
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="final-actions">
+          <button class="btn-cancel" (click)="isConfiguringProfiles.set(false)">Modificar Datos</button>
+          <button class="btn-save" (click)="saveAccount()">Finalizar y Guardar</button>
+        </div>
+      </section>
+    }
+  </div>
+</div>

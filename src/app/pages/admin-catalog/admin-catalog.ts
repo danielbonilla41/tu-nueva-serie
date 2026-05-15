@@ -1,5 +1,5 @@
 import { Component, signal, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 interface PlatformSummary {
@@ -10,7 +10,7 @@ interface PlatformSummary {
 
 @Component({
   selector: 'app-admin-catalog',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './admin-catalog.html',
   styleUrl: './admin-catalog.css',
 })
@@ -28,6 +28,6 @@ private router = inject(Router);
 
   // Método para navegar a la gestión de perfiles
   viewProfiles(accountName: string, accountId: string) {
-    this.router.navigate(['admin/accounts', accountName, 'reference', accountId, 'profiles']);
+    this.router.navigate(['admin/accounts', accountName, 'reference', accountId]);
   }
 }

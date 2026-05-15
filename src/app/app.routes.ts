@@ -5,6 +5,7 @@ import { MeansPayment } from './pages/means-payment/means-payment';
 import { Terms } from './pages/terms/terms';
 import { AdminCatalog } from './pages/admin-catalog/admin-catalog';
 import { AdminProfilesComponent } from './pages/admin-profiles/admin-profiles';
+import { CreateAccount } from './pages/create-account/create-account';
 
 export const routes: Routes = [
     // 1. RUTAS DE ADMINISTRACIÓN
@@ -13,8 +14,12 @@ export const routes: Routes = [
         component: AdminCatalog
     },
     {
-        path: 'admin/accounts/:name/reference/:id/profiles',
+        path: 'admin/accounts/:name/reference/:id',
         component: AdminProfilesComponent
+    },
+    {
+        path: 'admin/create-account/:name/reference/:id',
+        component: CreateAccount
     },
     // 2. RUTAS PÚBLICAS
     {
