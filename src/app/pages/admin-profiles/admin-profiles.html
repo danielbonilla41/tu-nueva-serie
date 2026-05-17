@@ -9,6 +9,7 @@
         <div class="list-header">
             <div class="header-title">
                 <h3>📋 Panel de Gestión de Cuentas</h3>
+                <p>Administra perfiles y ventas con actualización visual de estados.</p>
             </div>
         </div>
 
@@ -78,11 +79,26 @@
 
                             @for (prof of currentProfiles; track $index) {
                             <tr [class.sold-row]="prof.sold" [class.avail-row]="!prof.sold">
-                                <td class="text-center">
-                                    <button class="btn-action-bubble" (click)="openSaleModal(acc, $index, prof.sold ? 'renovar' : 'vender')">
-                                        {{ prof.sold ? '🔄' : '💰' }}
-                                    </button>
+                                
+                                <!-- CELDA DE ACCIONES EN MÓDULO DE DOS BOTONES -->
+                                <td class="col-action">
+                                    <div class="action-buttons-group">
+                                        <!-- Botón de proceso (Modal Vender/Renovar) -->
+                                        <button class="btn-action-bubble" 
+                                                (click)="openSaleModal(acc, $index, prof.sold ? 'renovar' : 'vender')"
+                                                [title]="prof.sold ? 'Renovar' : 'Vender'">
+                                            {{ prof.sold ? '🔄' : '💰' }}
+                                        </button>
+                                        
+                                        <!-- NUEVO: Botón de cambio rápido de estado (Toggle) -->
+                                        <button class="btn-action-bubble btn-toggle-status" 
+                                                (click)="onToggleSold(acc, $index)"
+                                                [title]="prof.sold ? 'Marcar como Disponible' : 'Marcar como Vendido'">
+                                            {{ prof.sold ? '🔴' : '🟢' }}
+                                        </button>
+                                    </div>
                                 </td>
+
                                 <td class="col-name">
                                     @if (isEditing) { <input class="table-input" [(ngModel)]="prof.name"> }
                                     @else { <span class="name-text">{{ prof.name }}</span> }
@@ -96,10 +112,18 @@
                                     @else { <span class="phone-text">{{ prof.phone_number || '---' }}</span> }
                                 </td>
                                 <td class="col-date text-center">
-                                    <span class="date-display">{{ prof.purchase_date | date:'dd/MM' }}</span>
+                                    @if (isEditing) { 
+                                        <input type="date" class="table-input date-picker" [(ngModel)]="prof.purchase_date"> 
+                                    } @else { 
+                                        <span class="date-display">{{ prof.purchase_date | date:'dd/MM' }}</span> 
+                                    }
                                 </td>
                                 <td class="col-date text-center">
-                                    <span class="date-display">{{ prof.renewal_date | date:'dd/MM' }}</span>
+                                    @if (isEditing) { 
+                                        <input type="date" class="table-input date-picker" [(ngModel)]="prof.renewal_date"> 
+                                    } @else { 
+                                        <span class="date-display">{{ prof.renewal_date | date:'dd/MM' }}</span> 
+                                    }
                                 </td>
                             </tr>
                             }

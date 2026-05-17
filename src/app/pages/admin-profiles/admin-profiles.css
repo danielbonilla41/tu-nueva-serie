@@ -24,7 +24,6 @@
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1.5rem;
-  margin-top: 1.5rem;
   border-left: 6px solid var(--p-color);
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
@@ -79,18 +78,27 @@
   border: 1px solid var(--border);
 }
 
+.table-input.date-picker {
+  padding: 3px 2px;
+  font-size: 0.7rem;
+  text-align: center;
+  cursor: pointer;
+  min-width: 100%;
+  height: 28px;
+}
+
 /* --- TABLA OPTIMIZADA PARA MÓVIL --- */
 .table-container {
   width: 100%;
   margin-top: 1rem;
-  overflow-x: hidden; /* Forzamos a que todo quepa */
+  overflow-x: hidden; 
 }
 
 .profiles-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 2px;
-  table-layout: fixed; /* Mantiene el control estricto de anchos */
+  table-layout: fixed; 
 }
 
 .profiles-table th {
@@ -107,12 +115,19 @@
   font-size: 0.8rem;
 }
 
-/* --- COLUMNAS (Control de Espacio Quirúrgico) --- */
-.col-action { width: 35px; }
-.col-name   { width: 22%; }
-.col-pin    { width: 42px; }
-.col-phone  { width: 25%; }
-.col-date   { width: 45px; }
+/* --- COLUMNAS (Ajustadas para la nueva doble acción) --- */
+.col-action { width: 64px; } /* Expandido de 35px a 64px para albergar los dos botones burbuja */
+.col-name   { width: 20%; }
+.col-pin    { width: 38px; }
+.col-phone  { width: 22%; }
+.col-date   { width: 52px; }
+
+/* Contenedor flexible de los dos botones de acción */
+.action-buttons-group {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
 
 .name-text {
   display: block;
@@ -142,22 +157,28 @@
   font-size: 0.65rem;
 }
 
-/* --- BOTONES --- */
+/* --- BOTONES BURBUJA --- */
 .btn-action-bubble {
   border: none;
   background: white;
-  width: 32px;
-  height: 32px;
+  width: 28px; /* Reducido ligeramente de 32px a 28px para maximizar rendimiento móvil lado a lado */
+  height: 28px;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.9rem;
   transition: transform 0.1s;
 }
 
 .btn-action-bubble:active { transform: scale(0.9); }
+
+.btn-toggle-status {
+  background: #fdfdfd;
+  border: 1px solid rgba(0,0,0,0.05);
+}
 
 .btn-icon {
   background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 5px;
@@ -169,7 +190,6 @@
   .account-header { flex-direction: column; align-items: flex-start; }
   .acc-actions-area { width: 100%; display: flex; justify-content: space-between; }
   
-  /* Reducir aún más en pantallas diminutas */
   .profiles-table { font-size: 0.7rem; }
   .col-phone { font-size: 0.65rem; }
 }
