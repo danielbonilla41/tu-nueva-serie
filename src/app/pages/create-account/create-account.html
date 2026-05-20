@@ -1,6 +1,9 @@
 <div class="create-container">
+  <!-- CABECERA -->
   <header class="header">
-    <button class="btn-back" (click)="goBack()">← Volver</button>
+    <button class="btn-back" (click)="goBack()">
+      <span class="icon">←</span> Volver
+    </button>
     <div class="title-group">
       <h1>Nueva Cuenta para {{ platformName() }}</h1>
       <p>Configura el acceso principal y los perfiles individuales</p>
@@ -14,31 +17,32 @@
       <div class="form-grid">
         <div class="input-group full">
           <label>Correo Electrónico</label>
-          <input type="email" [(ngModel)]="newAccount.email" placeholder="correo@ejemplo.com">
+          <input type="email" [(ngModel)]="newAccount.email" placeholder="correo@ejemplo.com" class="main-input">
         </div>
 
         <div class="input-group full">
           <label>Contraseña</label>
-          <input type="text" [(ngModel)]="newAccount.password" placeholder="Contraseña de la cuenta">
+          <input type="text" [(ngModel)]="newAccount.password" placeholder="Contraseña de la cuenta" class="main-input">
         </div>
 
         <div class="input-group">
           <label>Fecha Compra</label>
-          <input type="date" [(ngModel)]="newAccount.purchase_date">
+          <input type="date" [(ngModel)]="newAccount.purchase_date" class="main-input">
         </div>
 
         <div class="input-group">
           <label>Fecha Renovación</label>
-          <input type="date" [(ngModel)]="newAccount.renewal_date">
+          <input type="date" [(ngModel)]="newAccount.renewal_date" class="main-input">
         </div>
 
-        <div class="input-group">
+        <div class="input-group full-mobile">
           <label>Número de Perfiles</label>
-          <input type="number" [(ngModel)]="profileCount" min="1" max="10">
+          <input type="number" [(ngModel)]="profileCount" min="1" max="10" class="main-input">
         </div>
 
+        <!-- CONTENEDOR VALIDADO PARA BOTÓN 1 -->
         <div class="form-actions">
-          <button class="btn-next" (click)="prepareProfiles()" [disabled]="isConfiguringProfiles()">
+          <button type="button" class="btn-next btn-primary-blue" (click)="prepareProfiles()" [disabled]="isConfiguringProfiles()">
             Configurar Perfiles ↓
           </button>
         </div>
@@ -52,19 +56,24 @@
         <div class="profiles-list">
           @for (p of tempProfiles(); track $index) {
             <div class="profile-item">
-              <span class="index">#{{ $index + 1 }}</span>
+              <div class="profile-item-header">
+                <span class="index">Perfil #{{ $index + 1 }}</span>
+              </div>
               <div class="profile-inputs">
-                <input [(ngModel)]="p.name" placeholder="Nombre del perfil">
-                <input [(ngModel)]="p.pin" placeholder="PIN" maxlength="5">
-                <input [(ngModel)]="p.phone_number" placeholder="Teléfono (Opcional)">
+                <input [(ngModel)]="p.name" placeholder="Nombre del perfil" class="prof-input text-bold">
+                <div class="prof-sub-inputs">
+                  <input [(ngModel)]="p.pin" placeholder="PIN" maxlength="5" class="prof-input pin-input">
+                  <input [(ngModel)]="p.phone_number" placeholder="Teléfono (Opcional)" class="prof-input phone-input">
+                </div>
               </div>
             </div>
           }
         </div>
 
+        <!-- CONTENEDOR VALIDADO PARA BOTONES FINALES -->
         <div class="final-actions">
-          <button class="btn-cancel" (click)="isConfiguringProfiles.set(false)">Modificar Datos</button>
-          <button class="btn-save" (click)="saveAccount()">Finalizar y Guardar</button>
+          <button type="button" class="btn-cancel" (click)="isConfiguringProfiles.set(false)">Modificar Datos</button>
+          <button type="button" class="btn-save btn-success-green" (click)="saveAccount()">Finalizar y Guardar</button>
         </div>
       </section>
     }

@@ -45,9 +45,8 @@ export const routes: Routes = [
     {
         path: '',
         redirectTo: 'accounts',
-        pathMatch: 'full' // Asegura que solo se redireccione cuando la URL coincide exactamente con ''
+        pathMatch: 'full' 
     },
-    // 3. COMODÍN
     {
         path: '**',
         redirectTo: '',
