@@ -122,3 +122,50 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+@media (max-width: 600px) {
+    /* Forzamos el Grid a tener exactamente 2 columnas iguales y reducimos la separación */
+    .platform-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 5px;
+    }
+
+    /* Ajustamos el relleno interno de la tarjeta */
+    .platform-card {
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    /* Reducimos el tamaño del logo para que no sature la tarjeta */
+    .platform-icon {
+        width: 50px;
+        height: 50px;
+        border-width: 2px;
+        margin-bottom: 8px;
+    }
+
+    /* Ajuste de tipografías para evitar saltos de línea huérfanos */
+    .platform-card h3 {
+        font-size: 1.1em;
+        margin-bottom: 4px;
+        padding-bottom: 4px;
+    }
+
+    .platform-card p {
+        font-size: 0.85em;
+        margin-bottom: 10px;
+    }
+
+    /* Optimizamos los botones para que entren cómodamente lado a lado o compactos */
+    .features-btn {
+        padding: 6px 8px;
+        font-size: 0.8em;
+        margin-bottom: 6px;
+    }
+
+    .add-to-cart-btn {
+        padding: 8px 10px;
+        font-size: 0.85em;
+    }
+}

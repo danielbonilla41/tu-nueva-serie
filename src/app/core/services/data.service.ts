@@ -6,15 +6,13 @@ export class DataService {
 
   // Datos estáticos
   private staticData: PriceAccount[] = [
-    { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png', features: this.featuresNetflix() },
-    { name: 'Disney+ Premium', price: 11900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
+    { name: 'DGO', price: 14900, iconUrl: 'icons/dgo.png', features: this.featuresDgo1() },
+    { name: 'Paramount+', price: 13900, iconUrl: 'icons/paramount.png', features: this.featuresParamount() },
     { name: 'PrimeVideo', price: 4900, iconUrl: 'icons/primevideo.png', features: this.featuresPrime() },
+    { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png', features: this.featuresNetflix() },
+    { name: 'Disney+ Premium', price: 8900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
     { name: 'Max', price: 6900, iconUrl: 'icons/max.png', features: this.featuresMax() },
-    { name: 'Crunchyroll', price: 4900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() },
-    { name: 'Paramount+', price: 5500, iconUrl: 'icons/paramount.png', features: this.featuresParamount() },
-    { name: 'DGO 1 dispositvo', price: 15900, iconUrl: 'icons/dgo.png', features: this.featuresDgo1() },
-    { name: 'DGO 2 dispositivos', price: 27000, iconUrl: 'icons/dgo.png', features: this.featuresDgo2() },
-    { name: 'DGO Win Sports +', price: 29900, iconUrl: 'icons/dgo.png', features: this.featuresDgoWin() }
+    { name: 'Crunchyroll', price: 4900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() }
   ];
 
   // Signal para la lista de plataformas (las disponibles)
@@ -71,7 +69,6 @@ export class DataService {
       '1 Perfil.',
       '1 mes.',
       'Control de perfiles.',
-      'Renovación de cuenta y perfil. *',
       'Acceso ilimitado a películas y series',
       'Descargas para ver sin conexión',
       'Calidad HD y Ultra HD',
@@ -84,7 +81,6 @@ export class DataService {
       '1 Perfil.',
       '1 mes.',
       'Control de perfiles.',
-      'Renovación de cuenta y perfil. *',
       'Contenido de Disney, Pixar, Marvel, Star Wars',
       'Descargas ilimitadas en 10 dispositivos',
       'Calidad 4K UHD y HDR'
@@ -106,7 +102,6 @@ export class DataService {
       '1 Perfil.',
       '1 mes.',
       'Control de perfiles.',
-      'Renovación de cuenta y perfil. *',
       'Contenido de HBO, DC, Warner',
       'Calidad 4K Ultra HD',
       'Descargas offline',
@@ -126,6 +121,7 @@ export class DataService {
   private featuresParamount(): string[] {
     return [
       'Acceso a películas y series de Paramount',
+      'Los 104 partidos de la Copa Mundial de la FIFA 2026',
       'Contenido exclusivo de CBS, MTV, Nickelodeon',
       'Calidad HD y 4K',
       'Descargas para ver sin conexión'
@@ -135,25 +131,10 @@ export class DataService {
   private featuresDgo1(): string[] {
     return [
       '1 Perfil.',
-      '29 Días',
-      'PLAN ORO'
-    ];
-  }
-
-  private featuresDgo2(): string[] {
-    return [
-      '2 Perfil.',
-      '29 Días',
-      'PLAN ORO'
-    ];
-  }
-
-  private featuresDgoWin(): string[] {
-    return [
-      '1 Perfil.',
-      '29 Días',
-      'Win sports +',
-      'PLAN ORO'
+      '1 Mes',
+      'Los 104 partidos de la Copa Mundial de la FIFA 2026',
+      'Acceso a canales de deportes en vivo',
+      'Más de 90 canales de TV'
     ];
   }
 }
