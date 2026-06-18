@@ -19,7 +19,7 @@ interface SaleData {
   standalone: true,
   templateUrl: './admin-profiles.html',
   styleUrls: ['./admin-profiles.css'],
-  imports: [CommonModule, FormsModule, RouterLink] // Añadido RouterLink para el botón de volver
+  imports: [CommonModule, FormsModule, RouterLink]
 })
 export class AdminProfilesComponent implements OnInit {
   private accountService = inject(AccountService);
@@ -30,12 +30,16 @@ export class AdminProfilesComponent implements OnInit {
   platformId = signal<string>('');
   platformName = signal<string>('');
   accounts = signal<AccountProfile[]>([]);
+  showDetailModal = signal<boolean>(false);
+  selectedAccount = signal<AccountProfile | null>(null);
+  selectedProfile = signal<any>(null);
+  selectedProfileIndex = signal<number>(-1);
 
-  // Gestión de edición inline
+  // Gestión de edición inline superior
   editingAccountId = signal<string | null>(null);
   tempEditingAccount = signal<AccountProfile | null>(null);
 
-  // Signal para controlar el modal
+  // Modales de venta/renovación rápida
   showModal = signal<boolean>(false);
   saleForm = signal<SaleData>({
     phone: '',
@@ -56,47 +60,35 @@ export class AdminProfilesComponent implements OnInit {
     }
   }
 
-  // Cargar datos de Firebase según la plataforma
   loadData() {
     this.accountService.getAccountsByPlatform(this.platformId()).subscribe({
       next: (res) => this.accounts.set(res),
-      error: (err) => console.error('Error al cargar:', err)
+      error: (err) => console.error('Error al cargar cuentas:', err)
     });
   }
 
-  // Navegación hacia atrás (usada en el botón de la interfaz)
   goBack() {
     this.location.back();
   }
 
-  /**
-   * Inicia el modo de edición creando una copia profunda del objeto
-   */
   startEdit(acc: AccountProfile) {
     if (!acc.id) return;
     this.editingAccountId.set(acc.id);
-    // structuredClone es más moderno y seguro para clonar objetos en Angular 20
     this.tempEditingAccount.set(structuredClone(acc));
   }
 
-  /**
-   * Cancela la edición y limpia los temporales
-   */
   cancelEdit() {
     this.editingAccountId.set(null);
     this.tempEditingAccount.set(null);
   }
 
-  /**
-   * Guarda los cambios acumulados en el modo edición
-   */
   async saveInlineEdit() {
     const updatedAcc = this.tempEditingAccount();
     if (updatedAcc && updatedAcc.id) {
       try {
         await this.accountService.updateAccount(updatedAcc.id, updatedAcc);
+        this.accounts.update(list => list.map(a => a.id === updatedAcc.id ? updatedAcc : a));
         this.cancelEdit();
-        console.log('✅ Cuenta actualizada con éxito');
       } catch (error) {
         console.error('Error al actualizar:', error);
         alert('No se pudo guardar la información.');
@@ -104,26 +96,20 @@ export class AdminProfilesComponent implements OnInit {
     }
   }
 
-  /**
-   * Maneja el cambio de estado 'Vendido' / 'Disponible'
-   * Detecta automáticamente si estamos en modo edición o lectura
-   */
   async onToggleSold(account: AccountProfile, index: number) {
-    // Escenario 1: Si estamos editando esta tarjeta específica, modificamos la copia temporal
     if (this.editingAccountId() === account.id) {
       const temp = this.tempEditingAccount();
       if (temp) {
         temp.profiles[index].sold = !temp.profiles[index].sold;
         this.tempEditingAccount.set({ ...temp });
       }
-    }
-    // Escenario 2: Cambio rápido en modo lectura (impacto directo en DB)
-    else if (account.id) {
+    } else if (account.id) {
       const updatedProfiles = [...account.profiles];
       updatedProfiles[index].sold = !updatedProfiles[index].sold;
 
       try {
         await this.accountService.updateAccount(account.id, { profiles: updatedProfiles });
+        this.accounts.update(list => list.map(a => a.id === account.id ? { ...a, profiles: updatedProfiles } : a));
       } catch (error) {
         console.error('Error al actualizar estado:', error);
       }
@@ -133,8 +119,6 @@ export class AdminProfilesComponent implements OnInit {
   openSaleModal(acc: AccountProfile, index: number, mode: 'vender' | 'renovar') {
     const today = new Date();
     const profile = acc.profiles[index];
-
-    // Cálculo de fecha fin (un mes adelante menos un día para venta, o un mes para renovación)
     const end = new Date();
     end.setMonth(today.getMonth() + 1);
     if (mode === 'vender') end.setDate(today.getDate() - 1);
@@ -147,7 +131,6 @@ export class AdminProfilesComponent implements OnInit {
       account: acc,
       mode: mode
     });
-
     this.showModal.set(true);
   }
 
@@ -155,27 +138,110 @@ export class AdminProfilesComponent implements OnInit {
     const form = this.saleForm();
     if (!form.account || form.profileIndex === -1) return;
 
-    // Clonamos los perfiles para no mutar el original directamente
     const updatedProfiles = [...form.account.profiles];
     const targetProfile = updatedProfiles[form.profileIndex];
 
-    // Actualizamos los datos del perfil
     targetProfile.phone_number = form.phone;
     targetProfile.purchase_date = form.startDate;
     targetProfile.renewal_date = form.endDate;
     targetProfile.sold = true;
-
-    // Generar ID único para la transacción si no existe uno
-    targetProfile.sold_id = crypto.randomUUID();
+    if (!targetProfile.sold_id) targetProfile.sold_id = crypto.randomUUID();
 
     try {
       await this.accountService.updateAccount(form.account.id!, { profiles: updatedProfiles });
+      this.accounts.update(list => list.map(a => a.id === form.account!.id ? { ...a, profiles: updatedProfiles } : a));
       this.showModal.set(false);
-      alert(form.mode === 'vender' ? '✅ Perfil vendido' : '✅ Perfil renovado');
     } catch (error) {
       console.error(error);
     }
   }
 
+  openProfileDetailModal(account: AccountProfile, profile: any, index: number) {
+    this.selectedAccount.set(account);
+    this.selectedProfileIndex.set(index);
+    this.selectedProfile.set(structuredClone(profile));
+    this.showDetailModal.set(true);
+  }
 
+  triggerUpdateOrSell() {
+    const acc = this.selectedAccount();
+    const index = this.selectedProfileIndex();
+    const mode = this.selectedProfile().sold ? 'renovar' : 'vender';
+
+    this.showDetailModal.set(false);
+    if (acc) this.openSaleModal(acc, index, mode);
+  }
+
+  triggerToggleStatus() {
+    const acc = this.selectedAccount();
+    const index = this.selectedProfileIndex();
+
+    if (acc) {
+      this.onToggleSold(acc, index);
+      this.selectedProfile.set({
+        ...this.selectedProfile(),
+        sold: !this.selectedProfile().sold
+      });
+    }
+  }
+
+  async saveProfileChanges() {
+    const acc = this.selectedAccount();
+    const index = this.selectedProfileIndex();
+    const updatedProfile = this.selectedProfile();
+
+    if (acc && acc.id && index !== -1 && updatedProfile) {
+      const updatedProfiles = [...acc.profiles];
+      updatedProfiles[index] = updatedProfile;
+
+      try {
+        await this.accountService.updateAccount(acc.id, { profiles: updatedProfiles });
+        this.accounts.update(list => list.map(a => a.id === acc.id ? { ...a, profiles: updatedProfiles } : a));
+        this.showDetailModal.set(false);
+      } catch (error) {
+        console.error('Error al guardar cambios del perfil:', error);
+      }
+    }
+  }
+
+  copyAccountInfo() {
+    const email = this.selectedAccount()?.email;
+    const password = this.selectedAccount()?.password;
+    const profileName = this.selectedProfile()?.name;
+    const pin = this.selectedProfile()?.pin || 'Sin PIN';
+    const platform = this.platformName() ? this.platformName().toUpperCase() : 'STREAMING';
+
+    const textToCopy = `🍿 🎉 *¡Gracias por tu compra en www.tunuevaserie.com!*
+  
+✨ *DATOS DE ACCESO - ${platform}*
+────────────────────────
+📧 *Correo:* \`${email}\`
+🔑 *Clave:* \`${password}\`
+👤 *Perfil:* ${profileName}
+🔢 *PIN:* ${pin}
+────────────────────────
+
+📌 *REGLAS DE USO IMPORTANTES:*
+⚠️ Uso exclusivo en *1 solo dispositivo* a la vez.
+🚫 Prohibido modificar el perfil (nombre, imagen o PIN).
+🚫 Prohibido cambiar los datos generales de la cuenta.
+
+🔍 _Cualquier infracción detectada causará la suspensión del servicio sin previo aviso y sin derecho a reembolso._`;
+
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      console.log('Datos de acceso copiados.');
+    }).catch(err => {
+      console.error('Error al copiar', err);
+    });
+  }
+
+  copySingleField(value: string | undefined, fieldName: string) {
+    if (!value) return;
+
+    navigator.clipboard.writeText(value).then(() => {
+      console.log(`${fieldName} copiado al portapapeles.`);
+    }).catch(err => {
+      console.error('Error al copiar el campo:', err);
+    });
+  }
 }

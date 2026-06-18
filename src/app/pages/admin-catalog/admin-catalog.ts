@@ -23,7 +23,9 @@ private router = inject(Router);
     { id: 'XkMLmz9MArX8kBjgGx1M', name: 'Disney+', iconUrl: 'icons/disney.png' },
     { id: 'f5FnE3aWnC4cg0nqWOxy', name: 'Prime Video', iconUrl: 'icons/primevideo.png' },
     { id: '80Ray05nWcP0YgXrtUnS', name: 'Max', iconUrl: 'icons/max.png' },
-    { id: 'tjoYoZytl48ZPppWcxM6', name: 'DGO', iconUrl: 'icons/dgo.png' }
+    { id: 'tjoYoZytl48ZPppWcxM6', name: 'DGO', iconUrl: 'icons/dgo.png' },
+    { id: 'Ng6n7Y7HfUvSPRb9spJ6', name: 'Paramount+', iconUrl: 'icons/paramount.png' },
+    { id: 'PXqaF9OZmNoTl7pQADzB', name: 'Crunchyroll+', iconUrl: 'icons/crunchyroll.png' }
   ]);
 
   // Método para navegar a la gestión de perfiles

@@ -1,164 +1,170 @@
 <div class="admin-container">
-    <div class="top-nav">
-        <button class="btn-back" routerLink="/admin/catalog">
-            <span class="icon">←</span> Volver al Catálogo
-        </button>
-    </div>
+  <div class="top-nav">
+    <button class="btn-back" (click)="goBack()">⬅ Volver a Plataformas</button>
+  </div>
 
-    <section class="list-section">
-        <div class="list-header">
-            <div class="header-title">
-                <h3>📋 Panel de Gestión de Cuentas</h3>
-                <p>Administra perfiles y ventas con actualización visual de estados.</p>
+  <h2>Perfiles de la Plataforma: {{ platformName() }}</h2>
+
+  @for (acc of accounts(); track acc.id) {
+    <div class="card" [class.is-editing-card]="editingAccountId() === acc.id">
+      
+      <div class="account-header">
+        <div class="acc-meta">
+          @if (editingAccountId() !== acc.id) {
+            <div class="acc-info">
+              <div class="credential-row">
+                <h4>📧 {{ acc.email }}</h4>
+                <button class="btn-copy-inline" (click)="$event.stopPropagation(); copySingleField(acc.email, 'Correo')">📋</button>
+              </div>
+              <div class="credential-row">
+                <input type="password" [value]="acc.password" class="password-masked-input" readonly>
+                <button class="btn-copy-inline" (click)="$event.stopPropagation(); copySingleField(acc.password, 'Clave')">📋</button>
+              </div>
             </div>
+          } @else {
+            <div class="acc-info" *if="tempEditingAccount()">
+              <input type="text" [(ngModel)]="tempEditingAccount()!.email" class="header-input" placeholder="Correo">
+              <input type="text" [(ngModel)]="tempEditingAccount()!.password" class="header-input" placeholder="Contraseña">
+            </div>
+          }
         </div>
 
-        <div class="accounts-grid">
-            @for (acc of accounts(); track acc.id) {
-            <div class="card account-card" [class.is-editing-card]="editingAccountId() === acc.id">
-
-                <!-- CABECERA DE CUENTA -->
-                <div class="account-header">
-                    <div class="acc-meta">
-                        <span class="status-dot"></span>
-                        <div class="acc-info">
-                            @if (editingAccountId() === acc.id) {
-                            <div class="inline-edit-fields">
-                                <input class="header-input" [(ngModel)]="tempEditingAccount()!.email" placeholder="Email">
-                                <input class="header-input" [(ngModel)]="tempEditingAccount()!.password" placeholder="Contraseña">
-                            </div>
-                            } @else {
-                            <h4>{{ acc.email }}</h4>
-                            <code>{{ acc.password }}</code>
-                            }
-                        </div>
-                    </div>
-
-                    <div class="acc-actions-area">
-                        <div class="acc-dates-info">
-                            @if (editingAccountId() === acc.id) {
-                            <div class="edit-dates-box">
-                                <input type="date" [(ngModel)]="tempEditingAccount()!.purchase_date">
-                                <input type="date" [(ngModel)]="tempEditingAccount()!.renewal_date">
-                            </div>
-                            } @else {
-                            <div class="static-dates">
-                                <span>📅 {{ acc.purchase_date | date:'dd/MM/yy' }}</span>
-                                <span>🔄 {{ acc.renewal_date | date:'dd/MM/yy' }}</span>
-                            </div>
-                            }
-                        </div>
-
-                        <div class="action-buttons">
-                            @if (editingAccountId() === acc.id) {
-                            <button class="btn-icon save" (click)="saveInlineEdit()">✔️</button>
-                            <button class="btn-icon cancel" (click)="cancelEdit()">❌</button>
-                            } @else {
-                            <button class="btn-icon edit" (click)="startEdit(acc)">✏️</button>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TABLA DE PERFILES -->
-                <div class="table-container">
-                    <table class="profiles-table">
-                        <thead>
-                            <tr>
-                                <th class="col-action">Acc.</th>
-                                <th class="col-name">Nombre</th>
-                                <th class="col-pin">PIN</th>
-                                <th class="col-phone">Teléfono</th>
-                                <th class="col-date">Inicio</th>
-                                <th class="col-date">Fin</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @let isEditing = (editingAccountId() === acc.id);
-                            @let currentProfiles = isEditing ? tempEditingAccount()!.profiles : acc.profiles;
-
-                            @for (prof of currentProfiles; track $index) {
-                            <tr [class.sold-row]="prof.sold" [class.avail-row]="!prof.sold">
-                                
-                                <!-- CELDA DE ACCIONES EN MÓDULO DE DOS BOTONES -->
-                                <td class="col-action">
-                                    <div class="action-buttons-group">
-                                        <!-- Botón de proceso (Modal Vender/Renovar) -->
-                                        <button class="btn-action-bubble" 
-                                                (click)="openSaleModal(acc, $index, prof.sold ? 'renovar' : 'vender')"
-                                                [title]="prof.sold ? 'Renovar' : 'Vender'">
-                                            {{ prof.sold ? '🔄' : '💰' }}
-                                        </button>
-                                        
-                                        <!-- NUEVO: Botón de cambio rápido de estado (Toggle) -->
-                                        <button class="btn-action-bubble btn-toggle-status" 
-                                                (click)="onToggleSold(acc, $index)"
-                                                [title]="prof.sold ? 'Marcar como Disponible' : 'Marcar como Vendido'">
-                                            {{ prof.sold ? '🔴' : '🟢' }}
-                                        </button>
-                                    </div>
-                                </td>
-
-                                <td class="col-name">
-                                    @if (isEditing) { <input class="table-input" [(ngModel)]="prof.name"> }
-                                    @else { <span class="name-text">{{ prof.name }}</span> }
-                                </td>
-                                <td class="col-pin text-center">
-                                    @if (isEditing) { <input class="table-input pin" [(ngModel)]="prof.pin" maxlength="5"> }
-                                    @else { <span class="pin-badge-mini">{{ prof.pin || '---' }}</span> }
-                                </td>
-                                <td class="col-phone">
-                                    @if (isEditing) { <input class="table-input" [(ngModel)]="prof.phone_number"> }
-                                    @else { <span class="phone-text">{{ prof.phone_number || '---' }}</span> }
-                                </td>
-                                <td class="col-date text-center">
-                                    @if (isEditing) { 
-                                        <input type="date" class="table-input date-picker" [(ngModel)]="prof.purchase_date"> 
-                                    } @else { 
-                                        <span class="date-display">{{ prof.purchase_date | date:'dd/MM' }}</span> 
-                                    }
-                                </td>
-                                <td class="col-date text-center">
-                                    @if (isEditing) { 
-                                        <input type="date" class="table-input date-picker" [(ngModel)]="prof.renewal_date"> 
-                                    } @else { 
-                                        <span class="date-display">{{ prof.renewal_date | date:'dd/MM' }}</span> 
-                                    }
-                                </td>
-                            </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+        <div class="acc-actions-area">
+          @if (editingAccountId() !== acc.id) {
+            <div class="static-dates">
+              <span>📅 Ren: {{ acc.renewal_date }}</span>
             </div>
+            <div class="action-buttons">
+              <button class="btn-icon" (click)="startEdit(acc)">✏️</button>
+            </div>
+          } @else {
+            <div class="edit-dates-box" *if="tempEditingAccount()">
+              <input type="date" [(ngModel)]="tempEditingAccount()!.renewal_date">
+            </div>
+            <div class="action-buttons">
+              <button class="btn-icon" (click)="saveInlineEdit()">💾</button>
+              <button class="btn-icon" (click)="cancelEdit()">❌</button>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="profiles-table">
+          <thead>
+            <tr>
+              <th class="col-name">Perfil</th>
+              <th class="col-phone">Celular</th>
+              <th class="col-date text-center">Vence</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (profile of acc.profiles; track $index) {
+              <tr class="clickable-row" 
+                  [class.sold-row]="profile.sold" 
+                  [class.avail-row]="!profile.sold"
+                  (click)="openProfileDetailModal(acc, profile, $index)">
+                <td class="col-name">
+                  <span class="name-text">{{ profile.name }}</span>
+                </td>
+                <td class="col-phone">
+                  <span class="phone-text">{{ profile.phone_number || 'Disponible' }}</span>
+                </td>
+                <td class="col-date text-center">
+                  <span class="date-display">{{ profile.renewal_date ? (profile.renewal_date | date:'dd/MM') : '---' }}</span>
+                </td>
+              </tr>
             }
-        </div>
-    </section>
-</div>
+          </tbody>
+        </table>
+      </div>
 
-<!-- MODAL DE VENTA -->
-@if (showModal()) {
-    <div class="modal-overlay">
-        <div class="modal-content">
-            <h3>{{ saleForm().mode === 'vender' ? 'Registrar Venta' : 'Renovar Perfil' }}</h3>
-            <div class="modal-form">
-                <div class="input-group">
-                    <label>Teléfono Cliente</label>
-                    <input type="text" [(ngModel)]="saleForm().phone" placeholder="Ej: 3001234567">
-                </div>
-                <div class="input-group">
-                    <label>Fecha Inicio</label>
-                    <input type="date" [(ngModel)]="saleForm().startDate">
-                </div>
-                <div class="input-group">
-                    <label>Fecha Vencimiento</label>
-                    <input type="date" [(ngModel)]="saleForm().endDate">
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-cancel-modal" (click)="showModal.set(false)">Cancelar</button>
-                <button class="btn-save-modal" (click)="confirmSale()">Confirmar</button>
-            </div>
-        </div>
     </div>
-}
+  }
+
+  @if (showDetailModal()) {
+    <div class="modal-overlay" (click)="showDetailModal.set(false)">
+      <div class="modal-content profile-detail-modal" (click)="$event.stopPropagation()">
+        <div class="modal-detail-header">
+          <h3>👤 Gestión de Perfil</h3>          
+        </div>
+
+        <div class="profile-info-body modal-form">
+          <div class="input-group">
+            <label>Nombre del Perfil:</label>
+            <input type="text" [(ngModel)]="selectedProfile()!.name" class="modal-input">
+          </div>
+          <div class="input-group">
+            <label>PIN de acceso:</label>
+            <input type="text" [(ngModel)]="selectedProfile()!.pin" placeholder="Sin PIN" class="modal-input">
+          </div>
+          <div class="input-group">
+            <label>Teléfono Cliente:</label>
+            <input type="text" [(ngModel)]="selectedProfile()!.phone_number" placeholder="---" class="modal-input">
+          </div>
+          
+          <div class="modal-date-row">
+            <div class="input-group">
+              <label>Fecha Inicio:</label>
+              <input type="date" [(ngModel)]="selectedProfile()!.purchase_date" class="modal-input">
+            </div>
+            <div class="input-group">
+              <label>Fecha Fin/Vence:</label>
+              <input type="date" [(ngModel)]="selectedProfile()!.renewal_date" class="modal-input">
+            </div>
+          </div>
+
+          <div class="status-checkbox-group" (click)="triggerToggleStatus()">
+            <label class="checkbox-container">
+              <input type="checkbox" [checked]="selectedProfile()?.sold" disabled>
+              <span class="checkmark" [class.checked]="selectedProfile()?.sold"></span>
+              <span class="checkbox-label-text">
+                Estado: <strong>{{ selectedProfile()?.sold ? '🔴 Vendido / Ocupado' : '🟢 Disponible' }}</strong>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-grid-actions columns-2">
+          <button class="btn-modal-action btn-update" (click)="triggerUpdateOrSell()">
+            {{ selectedProfile()?.sold ? '🔄 Renovar Rápido' : '💰 Vender Perfil' }}
+          </button>
+          <button class="btn-modal-action btn-copy" (click)="copyAccountInfo()">
+            📋 Copiar Datos
+          </button>
+        </div>
+        
+        <button class="btn-save-profile-modal" (click)="saveProfileChanges()">
+          💾 Guardar Todo y Cerrar
+        </button>
+        <button class="btn-close-text" (click)="showDetailModal.set(false)">Cerrar sin guardar</button>
+      </div>
+    </div>
+  }
+
+  @if (showModal()) {
+    <div class="modal-overlay" (click)="showModal.set(false)">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>🚀 {{ saleForm().mode === 'vender' ? 'Registrar Venta' : 'Renovar Perfil' }}</h3>
+        <div class="modal-form">
+          <div class="input-group">
+            <label>Celular del Cliente:</label>
+            <input type="text" [(ngModel)]="saleForm().phone" placeholder="Ej. 3001234567">
+          </div>
+          <div class="input-group">
+            <label>Fecha Inicio:</label>
+            <input type="date" [(ngModel)]="saleForm().startDate">
+          </div>
+          <div class="input-group">
+            <label>Fecha Fin:</label>
+            <input type="date" [(ngModel)]="saleForm().endDate">
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-back" (click)="showModal.set(false)">Cancelar</button>
+          <button class="btn-save-profile-modal-confirm" (click)="confirmSale()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
