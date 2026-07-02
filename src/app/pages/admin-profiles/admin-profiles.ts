@@ -19,7 +19,7 @@ interface SaleData {
   standalone: true,
   templateUrl: './admin-profiles.html',
   styleUrls: ['./admin-profiles.css'],
-  imports: [CommonModule, FormsModule, RouterLink]
+  imports: [CommonModule, FormsModule]
 })
 export class AdminProfilesComponent implements OnInit {
   private accountService = inject(AccountService);

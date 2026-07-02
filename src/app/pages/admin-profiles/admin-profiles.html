@@ -6,165 +6,169 @@
   <h2>Perfiles de la Plataforma: {{ platformName() }}</h2>
 
   @for (acc of accounts(); track acc.id) {
-    <div class="card" [class.is-editing-card]="editingAccountId() === acc.id">
-      
-      <div class="account-header">
-        <div class="acc-meta">
-          @if (editingAccountId() !== acc.id) {
-            <div class="acc-info">
-              <div class="credential-row">
-                <h4>📧 {{ acc.email }}</h4>
-                <button class="btn-copy-inline" (click)="$event.stopPropagation(); copySingleField(acc.email, 'Correo')">📋</button>
-              </div>
-              <div class="credential-row">
-                <input type="password" [value]="acc.password" class="password-masked-input" readonly>
-                <button class="btn-copy-inline" (click)="$event.stopPropagation(); copySingleField(acc.password, 'Clave')">📋</button>
-              </div>
-            </div>
-          } @else {
-            <div class="acc-info" *if="tempEditingAccount()">
-              <input type="text" [(ngModel)]="tempEditingAccount()!.email" class="header-input" placeholder="Correo">
-              <input type="text" [(ngModel)]="tempEditingAccount()!.password" class="header-input" placeholder="Contraseña">
-            </div>
-          }
-        </div>
+  <div class="card" [class.is-editing-card]="editingAccountId() === acc.id">
 
-        <div class="acc-actions-area">
-          @if (editingAccountId() !== acc.id) {
-            <div class="static-dates">
-              <span>📅 Ren: {{ acc.renewal_date }}</span>
-            </div>
-            <div class="action-buttons">
-              <button class="btn-icon" (click)="startEdit(acc)">✏️</button>
-            </div>
-          } @else {
-            <div class="edit-dates-box" *if="tempEditingAccount()">
-              <input type="date" [(ngModel)]="tempEditingAccount()!.renewal_date">
-            </div>
-            <div class="action-buttons">
-              <button class="btn-icon" (click)="saveInlineEdit()">💾</button>
-              <button class="btn-icon" (click)="cancelEdit()">❌</button>
-            </div>
-          }
+    <div class="account-header">
+      <div class="acc-meta">
+        @if (editingAccountId() !== acc.id) {
+        <div class="acc-info">
+          <div class="credential-row">
+            <h4>📧 {{ acc.email }}</h4>
+            <button class="btn-copy-inline"
+              (click)="$event.stopPropagation(); copySingleField(acc.email, 'Correo')">📋</button>
+          </div>
+          <div class="credential-row">
+            <input type="password" [value]="acc.password" class="password-masked-input" readonly>
+            <button class="btn-copy-inline"
+              (click)="$event.stopPropagation(); copySingleField(acc.password, 'Clave')">📋</button>
+          </div>
         </div>
+        } @else if (tempEditingAccount()) {
+        <div class="acc-info">
+          <input type="text" [(ngModel)]="tempEditingAccount()!.email" class="header-input" placeholder="Correo">
+          <input type="text" [(ngModel)]="tempEditingAccount()!.password" class="header-input" placeholder="Contraseña">
+        </div>
+        <div class="edit-dates-box">
+          <input type="date" [(ngModel)]="tempEditingAccount()!.renewal_date">
+        </div>
+        }
       </div>
 
-      <div class="table-container">
-        <table class="profiles-table">
-          <thead>
-            <tr>
-              <th class="col-name">Perfil</th>
-              <th class="col-phone">Celular</th>
-              <th class="col-date text-center">Vence</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (profile of acc.profiles; track $index) {
-              <tr class="clickable-row" 
-                  [class.sold-row]="profile.sold" 
-                  [class.avail-row]="!profile.sold"
-                  (click)="openProfileDetailModal(acc, profile, $index)">
-                <td class="col-name">
-                  <span class="name-text">{{ profile.name }}</span>
-                </td>
-                <td class="col-phone">
-                  <span class="phone-text">{{ profile.phone_number || 'Disponible' }}</span>
-                </td>
-                <td class="col-date text-center">
-                  <span class="date-display">{{ profile.renewal_date ? (profile.renewal_date | date:'dd/MM') : '---' }}</span>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+      <div class="acc-actions-area">
+        @if (editingAccountId() !== acc.id) {
+        <div class="static-dates">
+          <span>📅 Ren: {{ acc.renewal_date }}</span>
+        </div>
+        <div class="action-buttons">
+          <button class="btn-icon" (click)="startEdit(acc)">✏️</button>
+        </div>
+        } @else if (tempEditingAccount()) {
+        <div class="edit-dates-box">
+          <input type="date" [(ngModel)]="tempEditingAccount()!.renewal_date">
+        </div>
+        <div class="action-buttons">
+          <button class="btn-icon" (click)="saveInlineEdit()">💾</button>
+          <button class="btn-icon" (click)="cancelEdit()">❌</button>
+        </div>
+        }
       </div>
-
     </div>
+
+    <div class="table-container">
+      <table class="profiles-table">
+        <thead>
+          <tr>
+            <th class="col-name">Perfil</th>
+            <th class="col-phone">Celular</th>
+            <th class="col-date text-center">Vence</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (profile of acc.profiles; track $index) {
+          <tr class="clickable-row" [class.sold-row]="profile.sold" [class.avail-row]="!profile.sold"
+            (click)="openProfileDetailModal(acc, profile, $index)">
+            <td class="col-name">
+              <span class="name-text">{{ profile.name }}</span>
+            </td>
+            <td class="col-phone">
+              <span class="phone-text">{{ profile.phone_number || 'Disponible' }}</span>
+            </td>
+            <td class="col-date text-center">
+              <span class="date-display">{{ profile.renewal_date ? (profile.renewal_date | date:'dd/MM') : '---'
+                }}</span>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  </div>
   }
 
   @if (showDetailModal()) {
-    <div class="modal-overlay" (click)="showDetailModal.set(false)">
-      <div class="modal-content profile-detail-modal" (click)="$event.stopPropagation()">
-        <div class="modal-detail-header">
-          <h3>👤 Gestión de Perfil</h3>          
-        </div>
-
-        <div class="profile-info-body modal-form">
-          <div class="input-group">
-            <label>Nombre del Perfil:</label>
-            <input type="text" [(ngModel)]="selectedProfile()!.name" class="modal-input">
-          </div>
-          <div class="input-group">
-            <label>PIN de acceso:</label>
-            <input type="text" [(ngModel)]="selectedProfile()!.pin" placeholder="Sin PIN" class="modal-input">
-          </div>
-          <div class="input-group">
-            <label>Teléfono Cliente:</label>
-            <input type="text" [(ngModel)]="selectedProfile()!.phone_number" placeholder="---" class="modal-input">
-          </div>
-          
-          <div class="modal-date-row">
-            <div class="input-group">
-              <label>Fecha Inicio:</label>
-              <input type="date" [(ngModel)]="selectedProfile()!.purchase_date" class="modal-input">
-            </div>
-            <div class="input-group">
-              <label>Fecha Fin/Vence:</label>
-              <input type="date" [(ngModel)]="selectedProfile()!.renewal_date" class="modal-input">
-            </div>
-          </div>
-
-          <div class="status-checkbox-group" (click)="triggerToggleStatus()">
-            <label class="checkbox-container">
-              <input type="checkbox" [checked]="selectedProfile()?.sold" disabled>
-              <span class="checkmark" [class.checked]="selectedProfile()?.sold"></span>
-              <span class="checkbox-label-text">
-                Estado: <strong>{{ selectedProfile()?.sold ? '🔴 Vendido / Ocupado' : '🟢 Disponible' }}</strong>
-              </span>
-            </label>
-          </div>
-        </div>
-
-        <div class="modal-grid-actions columns-2">
-          <button class="btn-modal-action btn-update" (click)="triggerUpdateOrSell()">
-            {{ selectedProfile()?.sold ? '🔄 Renovar Rápido' : '💰 Vender Perfil' }}
-          </button>
-          <button class="btn-modal-action btn-copy" (click)="copyAccountInfo()">
-            📋 Copiar Datos
-          </button>
-        </div>
-        
-        <button class="btn-save-profile-modal" (click)="saveProfileChanges()">
-          💾 Guardar Todo y Cerrar
-        </button>
-        <button class="btn-close-text" (click)="showDetailModal.set(false)">Cerrar sin guardar</button>
+  <div class="modal-overlay" (click)="showDetailModal.set(false)">
+    <div class="modal-content profile-detail-modal" (click)="$event.stopPropagation()">
+      <div class="modal-detail-header">
+        <h3>👤 Gestión de Perfil</h3>
       </div>
+
+      <div class="profile-info-body modal-form">
+        <div class="input-group">
+          <label>Nombre del Perfil:</label>
+          <input type="text" [(ngModel)]="selectedProfile()!.name" class="modal-input">
+        </div>
+        <div class="input-group">
+          <label>PIN de acceso:</label>
+          <input type="text" [(ngModel)]="selectedProfile()!.pin" placeholder="Sin PIN" class="modal-input">
+        </div>
+        <div class="input-group">
+          <label>Teléfono Cliente:</label>
+          <input type="text" [(ngModel)]="selectedProfile()!.phone_number" placeholder="---" class="modal-input">
+        </div>
+
+        <div class="modal-date-row">
+          <div class="input-group">
+            <label>Fecha Inicio:</label>
+            <input type="date" [(ngModel)]="selectedProfile()!.purchase_date" class="modal-input">
+          </div>
+          <div class="input-group">
+            <label>Fecha Fin/Vence:</label>
+            <input type="date" [(ngModel)]="selectedProfile()!.renewal_date" class="modal-input">
+          </div>
+        </div>
+
+        <div class="status-checkbox-group" (click)="triggerToggleStatus()">
+          <label class="checkbox-container">
+            <input type="checkbox" [checked]="selectedProfile()?.sold" disabled>
+            <span class="checkmark" [class.checked]="selectedProfile()?.sold"></span>
+            <span class="checkbox-label-text">
+              Estado: <strong>{{ selectedProfile()?.sold ? '🔴 Vendido / Ocupado' : '🟢 Disponible' }}</strong>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-grid-actions columns-2">
+        <button class="btn-modal-action btn-update" (click)="triggerUpdateOrSell()">
+          {{ selectedProfile()?.sold ? '🔄 Renovar Rápido' : '💰 Vender Perfil' }}
+        </button>
+        <button class="btn-modal-action btn-copy" (click)="copyAccountInfo()">
+          📋 Copiar Datos
+        </button>
+      </div>
+
+      <button class="btn-save-profile-modal" (click)="saveProfileChanges()">
+        💾 Guardar Todo y Cerrar
+      </button>
+      <button class="btn-close-text" (click)="showDetailModal.set(false)">Cerrar sin guardar</button>
     </div>
+  </div>
   }
 
   @if (showModal()) {
-    <div class="modal-overlay" (click)="showModal.set(false)">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <h3>🚀 {{ saleForm().mode === 'vender' ? 'Registrar Venta' : 'Renovar Perfil' }}</h3>
-        <div class="modal-form">
-          <div class="input-group">
-            <label>Celular del Cliente:</label>
-            <input type="text" [(ngModel)]="saleForm().phone" placeholder="Ej. 3001234567">
-          </div>
-          <div class="input-group">
-            <label>Fecha Inicio:</label>
-            <input type="date" [(ngModel)]="saleForm().startDate">
-          </div>
-          <div class="input-group">
-            <label>Fecha Fin:</label>
-            <input type="date" [(ngModel)]="saleForm().endDate">
-          </div>
+  <div class="modal-overlay" (click)="showModal.set(false)">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h3>🚀 {{ saleForm().mode === 'vender' ? 'Registrar Venta' : 'Renovar Perfil' }}</h3>
+      <div class="modal-form">
+        <div class="input-group">
+          <label>Celular del Cliente:</label>
+          <input type="text" [(ngModel)]="saleForm().phone" placeholder="Ej. 3001234567">
         </div>
-        <div class="modal-actions">
-          <button class="btn-back" (click)="showModal.set(false)">Cancelar</button>
-          <button class="btn-save-profile-modal-confirm" (click)="confirmSale()">Confirmar</button>
+        <div class="input-group">
+          <label>Fecha Inicio:</label>
+          <input type="date" [(ngModel)]="saleForm().startDate">
+        </div>
+        <div class="input-group">
+          <label>Fecha Fin:</label>
+          <input type="date" [(ngModel)]="saleForm().endDate">
         </div>
       </div>
+      <div class="modal-actions">
+        <button class="btn-back" (click)="showModal.set(false)">Cancelar</button>
+        <button class="btn-save-profile-modal-confirm" (click)="confirmSale()">Confirmar</button>
+      </div>
     </div>
+  </div>
   }
 </div>
