@@ -22,11 +22,13 @@ export const routes: Routes = [
     },
     {
         path: 'admin/accounts/:name/reference/:id',
-        component: AdminProfilesComponent
+        component: AdminProfilesComponent,
+         canActivate: [authGuard]
     },
     {
         path: 'admin/create-account/:name/reference/:id',
-        component: CreateAccount
+        component: CreateAccount,
+        canActivate: [authGuard]
     },
     // 2. RUTAS PÚBLICAS
     {

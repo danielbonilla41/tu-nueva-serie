@@ -4,6 +4,7 @@ import { AccountService } from '../../core/services/account.service';
 import { AccountProfile } from '../../models/account-profile';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Auth } from '@angular/fire/auth';
 
 interface SaleData {
   phone: string;
@@ -25,6 +26,7 @@ export class AdminProfilesComponent implements OnInit {
   private accountService = inject(AccountService);
   private route = inject(ActivatedRoute);
   private location = inject(Location);
+  private auth = inject(Auth);
 
   // --- Signals de Estado ---
   platformId = signal<string>('');

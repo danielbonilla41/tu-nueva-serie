@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../../core/services/account.service';
 import { AccountProfile } from '../../models/account-profile';
 import { Profile } from '../../models/profile';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-create-account',
@@ -18,7 +19,7 @@ export class CreateAccount implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private location = inject(Location);
-
+  private auth = inject(Auth);
   // Contexto de la plataforma
   platformId = signal<string>('');
   platformName = signal<string>('');
