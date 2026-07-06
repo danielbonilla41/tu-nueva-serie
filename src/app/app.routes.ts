@@ -6,12 +6,19 @@ import { Terms } from './pages/terms/terms';
 import { AdminCatalog } from './pages/admin-catalog/admin-catalog';
 import { AdminProfilesComponent } from './pages/admin-profiles/admin-profiles';
 import { CreateAccount } from './pages/create-account/create-account';
+import { authGuard } from './auth/auth-guard';
+import { Login } from './pages/auth/login/login';
 
 export const routes: Routes = [
     // 1. RUTAS DE ADMINISTRACIÓN
     {
-        path: 'admin/catalog',
-        component: AdminCatalog
+        path: 'admin/login',
+        component: Login
+    },
+    {
+        path: 'admin/dashboard',
+        component: AdminCatalog,
+        canActivate: [authGuard]
     },
     {
         path: 'admin/accounts/:name/reference/:id',
@@ -45,7 +52,7 @@ export const routes: Routes = [
     {
         path: '',
         redirectTo: 'accounts',
-        pathMatch: 'full' 
+        pathMatch: 'full'
     },
     {
         path: '**',

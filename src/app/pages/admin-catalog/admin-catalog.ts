@@ -1,6 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Auth, signOut } from '@angular/fire/auth';
 
 interface PlatformSummary {
   id: string;
@@ -15,7 +16,9 @@ interface PlatformSummary {
   styleUrl: './admin-catalog.css',
 })
 export class AdminCatalog {
-private router = inject(Router);
+
+  private router = inject(Router);
+  private auth = inject(Auth);
 
   // Lista simplificada para el catálogo administrativo
   public platforms = signal<PlatformSummary[]>([
@@ -31,5 +34,10 @@ private router = inject(Router);
   // Método para navegar a la gestión de perfiles
   viewProfiles(accountName: string, accountId: string) {
     this.router.navigate(['admin/accounts', accountName, 'reference', accountId]);
+  }
+
+  async logout() {
+    await signOut(this.auth);
+    this.router.navigate(['admin/login']);
   }
 }
