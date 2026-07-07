@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AccountService } from '../../core/services/account.service';
 import { AccountProfile } from '../../models/account-profile';
 import { CommonModule, Location } from '@angular/common';
@@ -206,18 +206,21 @@ export class AdminProfilesComponent implements OnInit {
     }
   }
 
-  copyAccountInfo() {
+  copyAccountInfo(sold: boolean) {
     const email = this.selectedAccount()?.email;
     const password = this.selectedAccount()?.password;
     const profileName = this.selectedProfile()?.name;
     const pin = this.selectedProfile()?.pin || 'Sin PIN';
     const platform = this.platformName() ? this.platformName().toUpperCase() : 'STREAMING';
 
-    const textToCopy = `🍿 🎉 *¡Gracias por tu compra en www.tunuevaserie.com!*
+    const title = sold ? 'Se han Actualizado los datos de acceso' : '¡Gracias por tu compra en www.tunuevaserie.com!';
+
+
+    const textToCopy = `🍿 🎉 *${title}*
   
-✨ *DATOS DE ACCESO - ${platform}*
+✨ * DATOS DE ACCESO - ${platform}*
 ────────────────────────
-📧 *Correo:* \`${email}\`
+📧 * Correo:* \`${email}\`
 🔑 *Clave:* \`${password}\`
 👤 *Perfil:* ${profileName}
 🔢 *PIN:* ${pin}

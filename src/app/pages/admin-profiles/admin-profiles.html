@@ -131,9 +131,9 @@
 
       <div class="modal-grid-actions columns-2">
         <button class="btn-modal-action btn-update" (click)="triggerUpdateOrSell()">
-          {{ selectedProfile()?.sold ? '🔄 Renovar Rápido' : '💰 Vender Perfil' }}
+          {{ selectedProfile()?.sold ? '🔄 Renovar' : '💰 Vender' }}
         </button>
-        <button class="btn-modal-action btn-copy" (click)="copyAccountInfo()">
+        <button class="btn-modal-action btn-copy" (click)="copyAccountInfo(selectedProfile()?.sold)">
           📋 Copiar Datos
         </button>
       </div>
