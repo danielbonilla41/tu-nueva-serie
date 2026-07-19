@@ -12,7 +12,7 @@ export class DataService {
     { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png', features: this.featuresNetflix() },
     { name: 'Disney+ Premium', price: 8900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
     { name: 'Max', price: 6900, iconUrl: 'icons/max.png', features: this.featuresMax() },
-    { name: 'Crunchyroll', price: 4900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() }
+    { name: 'Crunchyroll', price: 5900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() }
   ];
 
   // Signal para la lista de plataformas (las disponibles)
@@ -111,10 +111,10 @@ export class DataService {
 
   private featuresCrunchyroll(): string[] {
     return [
-      'Acceso a miles de episodios de anime',
-      'Simulcasts al mismo tiempo que Japón',
-      'Calidad HD y 4K',
-      'Descargas para ver sin conexión'
+      'Sin anuncios',
+      'Acceso completo al catálogo de Crunchyroll',
+      'Nuevos episodios poco después de su transmisión en Japón',
+      'Contenido sin conexión'
     ];
   }
 
