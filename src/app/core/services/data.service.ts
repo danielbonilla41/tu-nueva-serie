@@ -7,7 +7,7 @@ export class DataService {
   // Datos estáticos
   private staticData: PriceAccount[] = [
     { name: 'DGO', price: 14900, iconUrl: 'icons/dgo.png', features: this.featuresDgo1() },
-    { name: 'Paramount+', price: 11000, iconUrl: 'icons/paramount.png', features: this.featuresParamount() },
+    { name: 'Paramount+', price: 8900, iconUrl: 'icons/paramount.png', features: this.featuresParamount() },
     { name: 'PrimeVideo', price: 4900, iconUrl: 'icons/primevideo.png', features: this.featuresPrime() },
     { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png', features: this.featuresNetflix() },
     { name: 'Disney+ Premium', price: 8900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
