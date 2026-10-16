@@ -6,13 +6,13 @@ export class DataService {
 
   // Datos estáticos
   private staticData: PriceAccount[] = [
-    { name: 'DGO', price: 14900, iconUrl: 'icons/dgo.png', features: this.featuresDgo1() },
-    { name: 'Paramount+', price: 8900, iconUrl: 'icons/paramount.png', features: this.featuresParamount() },
     { name: 'PrimeVideo', price: 4900, iconUrl: 'icons/primevideo.png', features: this.featuresPrime() },
-    { name: 'Netflix', price: 12900, iconUrl: 'icons/netflix.png', features: this.featuresNetflix() },
-    { name: 'Disney+ Premium', price: 8900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
-    { name: 'Max', price: 7500, iconUrl: 'icons/max.png', features: this.featuresMax() },
-    { name: 'Crunchyroll', price: 5900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() }
+    { name: 'Netflix', price: 13900, iconUrl: 'icons/netflix.png', features: this.featuresNetflix() },
+     { name: 'Max', price: 7500, iconUrl: 'icons/max.png', features: this.featuresMax() },
+    { name: 'Disney+ Premium', price: 9900, iconUrl: 'icons/disney.png', features: this.featuresDisney() },
+    { name: 'Paramount+', price: 9900, iconUrl: 'icons/paramount.png', features: this.featuresParamount() },
+    { name: 'DGO', price: 16900, iconUrl: 'icons/dgo.png', features: this.featuresDgo1() },
+    { name: 'Crunchyroll', price: 6900, iconUrl: 'icons/crunchyroll.png', features: this.featuresCrunchyroll() }
   ];
 
   // Signal para la lista de plataformas (las disponibles)
